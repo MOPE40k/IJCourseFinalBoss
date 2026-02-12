@@ -5,6 +5,10 @@ using Utils.ConfigsManagement;
 using UnityEngine;
 using Utils.SceneManagement;
 using Utils.LoadingScreen;
+using System;
+using Runtime.Meta.Features.Wallet;
+using System.Collections.Generic;
+using Utils.Reactive;
 
 namespace Infrastracture.EntryPoint
 {
@@ -22,7 +26,8 @@ namespace Infrastracture.EntryPoint
                 .RegisterAsSingle<ILoadingScreen>(CreateLoadingScreen)
                 .RegisterAsSingle(CreateConfigsProviderService)
                 .RegisterAsSingle(CreateSceneLoaderService)
-                .RegisterAsSingle(CreateSceneSwitcherService);
+                .RegisterAsSingle(CreateSceneSwitcherService)
+                .RegisterAsSingle(CreateWalletService);
         }
 
         private static CoroutinePerformer CreateCoroutinePerformer(DIContainer container)
@@ -69,5 +74,15 @@ namespace Infrastracture.EntryPoint
                 container.Resolve<ILoadingScreen>(),
                 container
             );
+
+        private static WalletService CreateWalletService(DIContainer container)
+        {
+            Dictionary<CurrencyTypes, ReactiveVeriable<int>> currencies = new();
+
+            foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
+                currencies[type] = new ReactiveVeriable<int>();
+
+            return new WalletService(currencies);
+        }
     }
 }

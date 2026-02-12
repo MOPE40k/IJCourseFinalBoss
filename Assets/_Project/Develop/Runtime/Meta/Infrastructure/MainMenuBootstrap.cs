@@ -9,6 +9,7 @@ using Runtime.Configs;
 using Utils.ConfigsManagement;
 using UnityEngine;
 using Utils.InputManagement;
+using Runtime.Meta.Features.Wallet;
 
 namespace Runtime.Meta.Infrastructure
 {
@@ -16,6 +17,8 @@ namespace Runtime.Meta.Infrastructure
     {
         // References
         private DIContainer _container = null;
+
+        private WalletService walletService = null;
 
         public override void ProcessRegistrations(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -26,6 +29,7 @@ namespace Runtime.Meta.Infrastructure
 
         public override IEnumerator Init()
         {
+            walletService = _container.Resolve<WalletService>();
             yield return _container.Resolve<ConfigsProviderService>().LoadAsync();
         }
 
@@ -36,6 +40,21 @@ namespace Runtime.Meta.Infrastructure
 
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                walletService.Add(CurrencyTypes.Gold, 10);
+                Debug.Log($"Золота осталось: {walletService.GetCurrency(CurrencyTypes.Gold).Value}");
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                if (walletService.Enough(CurrencyTypes.Gold, 10))
+                {
+                    walletService.Spend(CurrencyTypes.Gold, 10);
+                    Debug.Log($"Золота осталось: {walletService.GetCurrency(CurrencyTypes.Gold).Value}");
+                }
+            }
+
             if (Input.GetKeyDown(InputKeys.DigitsModeKey))
                 LoadSceneFor(
                     _container.Resolve<ConfigsProviderService>().GetConfig<DigitsSetConfig>());
