@@ -1,4 +1,9 @@
 using Infrastructure.DI;
+using Runtime.Meta.Features.Sessions;
+using Runtime.Meta.Features.Wallet;
+using Runtime.Utils.DataManagement.DataProviders;
+using Runtime.Utils.Stats;
+using Utils.ConfigsManagement;
 using Utils.CoroutinesManagement;
 using Utils.SceneManagement;
 
@@ -13,10 +18,10 @@ namespace Runtime.Gameplay.Infrastucture
         {
             _inputArgs = inputArgs;
 
-            container.RegisterAsSingle(CreateSequanceGenerationService)
-                .RegisterAsSingle(CreatePhraseCompareService)
-                .RegisterAsSingle(CreateGameplayCycle)
-                .RegisterAsSingle(CreateGameResultService);
+            container.RegisterAsSingle(CreateSequanceGenerationService);
+            container.RegisterAsSingle(CreatePhraseCompareService);
+            container.RegisterAsSingle(CreateGameplayCycle);
+            container.RegisterAsSingle(CreateGameResultService);
         }
 
         private static SequanceGenerationService CreateSequanceGenerationService(DIContainer container)
@@ -28,11 +33,16 @@ namespace Runtime.Gameplay.Infrastucture
         private static GameplayCycle CreateGameplayCycle(DIContainer container)
             => new GameplayCycle(container, _inputArgs);
 
-        private static GameResultService CreateGameResultService(DIContainer container)
-            => new GameResultService(
+        private static GameSessionDetermineService CreateGameResultService(DIContainer container)
+            => new GameSessionDetermineService(
                 container.Resolve<PhraseCompareService>(),
                 container.Resolve<SceneSwitcherService>(),
-                container.Resolve<ICoroutinePerformer>()
+                container.Resolve<ICoroutinePerformer>(),
+                container.Resolve<ConfigsProviderService>(),
+                container.Resolve<PlayerDataProvider>(),
+                container.Resolve<WalletService>(),
+                container.Resolve<SessionConditionCounterService>(),
+                container.Resolve<StatsShowService>()
             );
     }
 }

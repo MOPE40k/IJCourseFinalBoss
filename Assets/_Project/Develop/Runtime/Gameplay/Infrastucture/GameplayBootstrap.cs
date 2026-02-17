@@ -11,9 +11,11 @@ namespace Runtime.Gameplay.Infrastucture
     {
         // References
         private DIContainer _container = null;
-        GameplayCycle _gameplayCycle = null;
+        private GameplayCycle _gameplayCycle = null;
 
-        public override void ProcessRegistrations(DIContainer container, IInputSceneArgs sceneArgs)
+        public override void ProcessRegistrations(
+            DIContainer container,
+            IInputSceneArgs sceneArgs)
         {
             _container = container;
 

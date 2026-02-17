@@ -8,7 +8,7 @@ using Utils.LoadingScreen;
 
 namespace Utils.SceneManagement
 {
-    public class SceneSwitcherService : IService
+    public class SceneSwitcherService
     {
         // References
         private readonly SceneLoaderService _sceneLoaderService = null;
@@ -40,6 +40,8 @@ namespace Utils.SceneManagement
             DIContainer sceneContainer = new(_projectContainer);
 
             sceneBootstrap.ProcessRegistrations(sceneContainer, sceneArgs);
+
+            sceneContainer.Init();
 
             yield return sceneBootstrap.Init();
 

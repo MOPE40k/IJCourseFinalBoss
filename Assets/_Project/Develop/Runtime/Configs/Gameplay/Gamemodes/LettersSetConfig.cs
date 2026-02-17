@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Runtime.Configs
+namespace Runtime.Configs.Gameplay.Gamemodes
 {
     [CreateAssetMenu(menuName = "Configs/New LettersSetConfig", fileName = "LettersSetConfig")]
     public class LettersSetConfig : SymbolsSetConfig

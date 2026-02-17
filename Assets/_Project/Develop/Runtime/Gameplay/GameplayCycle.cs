@@ -1,13 +1,12 @@
 using Infrastructure.DI;
 using Runtime.Gameplay.Infrastucture;
 using UnityEngine;
-using Utils;
 using Utils.CoroutinesManagement;
 using Utils.InputManagement;
 
 namespace Runtime.Gameplay
 {
-    public class GameplayCycle : IService
+    public class GameplayCycle
     {
         // References
         private readonly DIContainer _container = null;
@@ -52,7 +51,9 @@ namespace Runtime.Gameplay
         {
             if (c == InputChars.NewlineChar || c == InputChars.ReturnChar)
             {
-                GameResultService gameResultService = _container.Resolve<GameResultService>();
+                _isRunning = false;
+
+                GameSessionDetermineService gameResultService = _container.Resolve<GameSessionDetermineService>();
 
                 _container.Resolve<ICoroutinePerformer>().StartPerform(
                     gameResultService.DetermineResult(_currentInput, _codePhrase, _inputArgs));

@@ -1,6 +1,6 @@
 namespace Utils.LoadingScreen
 {
-    public interface ILoadingScreen : IService
+    public interface ILoadingScreen
     {
         // Runtime
         bool IsShow { get; }

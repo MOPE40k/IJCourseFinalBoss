@@ -4,6 +4,7 @@ namespace Utils.Reactive
 {
     public class Subscriber<T, K> : IDisposable
     {
+        // Delegates
         private Action<T, K> _action = null;
         private Action<Subscriber<T, K>> _onDispose = null;
 

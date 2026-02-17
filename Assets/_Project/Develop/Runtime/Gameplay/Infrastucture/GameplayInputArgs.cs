@@ -1,4 +1,4 @@
-using Runtime.Configs;
+using Runtime.Configs.Gameplay.Gamemodes;
 using Runtime.Utils.SceneManagement;
 
 namespace Runtime.Gameplay.Infrastucture

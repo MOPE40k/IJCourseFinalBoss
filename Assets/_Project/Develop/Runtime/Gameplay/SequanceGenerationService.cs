@@ -1,9 +1,8 @@
 using UnityEngine;
-using Utils;
 
 namespace Runtime.Gameplay
 {
-    public class SequanceGenerationService : IService
+    public class SequanceGenerationService
     {
         public string GetRandomSequance(string chars, int length)
         {

@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Runtime.Configs;
+using Runtime.Configs.Gameplay.Gamemodes;
+using Runtime.Configs.Meta.Wallet;
 using UnityEngine;
 using Utils.AssetsManagement;
 
@@ -14,8 +15,10 @@ namespace Utils.ConfigsManagement
 
         private readonly Dictionary<Type, string> _configsResourcesPaths = new()
         {
-            {typeof(DigitsSetConfig), "Configs/DigitsSetConfig"},
-            {typeof(LettersSetConfig), "Configs/LettersSetConfig"}
+            {typeof(DigitsSetConfig), "Configs/Gameplay/Gamemodes/DigitsSetConfig"},
+            {typeof(LettersSetConfig), "Configs/Gameplay/Gamemodes/LettersSetConfig"},
+            {typeof(StartWalletConfig), "Configs/Meta/Wallet/StartWalletConfig"},
+            {typeof(ActionsCostsConfig), "Configs/Meta/ActionsCosts/ActionCostsConfig"}
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resourcesAssetsLoader)

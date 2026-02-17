@@ -1,4 +1,4 @@
-namespace Runtime.Configs
+namespace Runtime.Configs.Gameplay.Gamemodes
 {
     public interface ISymbolsSetConfig
     {
