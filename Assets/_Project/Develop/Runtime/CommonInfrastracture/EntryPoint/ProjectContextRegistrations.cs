@@ -1,9 +1,9 @@
 using System;
+using UnityEngine;
 using Infrastructure.DI;
 using Utils.CoroutinesManagement;
 using Utils.AssetsManagement;
 using Utils.ConfigsManagement;
-using UnityEngine;
 using Utils.SceneManagement;
 using Utils.LoadingScreen;
 using Runtime.Meta.Features.Wallet;
@@ -16,6 +16,8 @@ using Runtime.Utils.Stats;
 using Runtime.Utils.DataManagement.DataRepository;
 using Runtime.Utils.DataManagement.DataProviders;
 using Runtime.Meta.Features.Sessions;
+using Runtime.Ui;
+using Runtime.Ui.Core;
 
 namespace Infrastracture.EntryPoint
 {
@@ -40,6 +42,8 @@ namespace Infrastracture.EntryPoint
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             container.RegisterAsSingle(CreatePlayerDataProvider);
             container.RegisterAsSingle(CreateStatsShowService);
+            container.RegisterAsSingle(CreateProjectPresentersFactory);
+            container.RegisterAsSingle(CreateViewsFactory);
         }
 
         private static CoroutinePerformer CreateCoroutinePerformer(DIContainer container)
@@ -136,6 +140,14 @@ namespace Infrastracture.EntryPoint
             => new StatsShowService(
                 container.Resolve<SessionConditionCounterService>(),
                 container.Resolve<WalletService>()
+            );
+
+        private static ProjectPresentersFactory CreateProjectPresentersFactory(DIContainer container)
+            => new ProjectPresentersFactory(container);
+
+        private static ViewsFactory CreateViewsFactory(DIContainer container)
+            => new ViewsFactory(
+                container.Resolve<ResourcesAssetsLoader>()
             );
     }
 }

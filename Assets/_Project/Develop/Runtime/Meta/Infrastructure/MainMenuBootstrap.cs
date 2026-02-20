@@ -7,11 +7,21 @@ using Runtime.Utils.ConfigsManagement;
 using Utils.InputManagement;
 using Runtime.Utils.Stats;
 using Runtime.Meta.Features.Stats;
+using Runtime.Meta.Features.Wallet;
+using Runtime.Ui.MainMenu;
 
 namespace Runtime.Meta.Infrastructure
 {
     public class MainMenuBootstrap : SceneBootstrap
     {
+        // Test
+        private WalletService _walletService;
+
+        public void Test()
+        {
+            _walletService = _container.Resolve<WalletService>();
+        }
+
         // References
         private DIContainer _container = null;
 
@@ -24,6 +34,8 @@ namespace Runtime.Meta.Infrastructure
 
         public override IEnumerator Init()
         {
+            Test();
+
             yield break;
         }
 
@@ -45,6 +57,19 @@ namespace Runtime.Meta.Infrastructure
 
             if (Input.GetKeyDown(InputKeys.ResetKey))
                 _container.Resolve<ResetStatsService>().ResetStats();
+
+
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+                _walletService.Add(CurrencyTypes.Gold, 10);
+
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+                _walletService.Spend(CurrencyTypes.Gold, 10);
+
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+                _walletService.Add(CurrencyTypes.Diamond, 10);
+
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+                _walletService.Spend(CurrencyTypes.Diamond, 10);
         }
     }
 }

@@ -18,7 +18,8 @@ namespace Utils.ConfigsManagement
             {typeof(DigitsSetConfig), "Configs/Gameplay/Gamemodes/DigitsSetConfig"},
             {typeof(LettersSetConfig), "Configs/Gameplay/Gamemodes/LettersSetConfig"},
             {typeof(StartWalletConfig), "Configs/Meta/Wallet/StartWalletConfig"},
-            {typeof(ActionsCostsConfig), "Configs/Meta/ActionsCosts/ActionCostsConfig"}
+            {typeof(ActionsCostsConfig), "Configs/Meta/ActionsCosts/ActionCostsConfig"},
+            {typeof(CurrencyIconsConfig), "Configs/Meta/Wallet/CurrencyIconsConfig"}
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resourcesAssetsLoader)
