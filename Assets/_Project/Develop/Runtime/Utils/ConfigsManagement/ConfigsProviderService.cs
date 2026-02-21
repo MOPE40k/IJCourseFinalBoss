@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Utils.ConfigsManagement
 {
-    public class ConfigsProviderService : IService
+    public class ConfigsProviderService
     {
         // References
         private readonly IConfigsLoader[] _loaders;

@@ -1,16 +1,14 @@
-using Runtime.Configs;
-using UnityEngine;
-using Utils;
+using Runtime.Configs.Gameplay.Gamemodes;
 using Utils.ConfigsManagement;
-using Utils.InputManagement;
 using Utils.SceneManagement;
 using Utils.CoroutinesManagement;
 using Runtime.Gameplay.Infrastucture;
 
 namespace Runtime.Utils.ConfigsManagement
 {
-    public class GamemodeConfigProvider : IService
+    public class GamemodeConfigProvider
     {
+        // References
         private readonly ConfigsProviderService _configsProviderService = null;
         private readonly SceneSwitcherService _sceneSwitcherService = null;
         private readonly ICoroutinePerformer _coroutinePerformer = null;
@@ -25,16 +23,11 @@ namespace Runtime.Utils.ConfigsManagement
             _coroutinePerformer = coroutinePerformer;
         }
 
-        public void UpdateTick(float deltaTime)
-        {
-            if (Input.GetKeyDown(InputKeys.DigitsModeKey))
-                LoadSceneFor(
-                    _configsProviderService.GetConfig<DigitsSetConfig>());
+        public void DigitsModeLoad()
+            => LoadSceneFor(_configsProviderService.GetConfig<DigitsSetConfig>());
 
-            if (Input.GetKeyDown(InputKeys.LettersModeKey))
-                LoadSceneFor(
-                    _configsProviderService.GetConfig<LettersSetConfig>());
-        }
+        public void LettersModeLoad()
+            => LoadSceneFor(_configsProviderService.GetConfig<LettersSetConfig>());
 
         private void LoadSceneFor(ISymbolsSetConfig config)
         {

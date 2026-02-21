@@ -5,9 +5,12 @@ namespace Utils.Reactive
 {
     public class ReactiveVeriable<T> : IReadOnlyVeriable<T> where T : IEquatable<T>
     {
+        // References
         private readonly List<Subscriber<T, T>> _subscribers = new();
         private readonly List<Subscriber<T, T>> _toAdd = new();
         private readonly List<Subscriber<T, T>> _toRemove = new();
+
+        // Runtime
         private T _value = default(T);
 
         public ReactiveVeriable()

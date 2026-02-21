@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Utils;
+using Runtime.Gameplay.Infrastucture;
 
 namespace Infrastructure.DI
 {
@@ -16,7 +16,7 @@ namespace Infrastructure.DI
         public DIContainer(DIContainer parent = null)
             => _parent = parent;
 
-        public DIContainer RegisterAsSingle<T>(Func<DIContainer, T> creator) where T : IService
+        public IRegistrationOptions RegisterAsSingle<T>(Func<DIContainer, T> creator)
         {
             if (IsAlreadyRegister<T>())
                 throw new InvalidOperationException($"{typeof(T)} already register!");
@@ -25,7 +25,7 @@ namespace Infrastructure.DI
 
             _container.Add(typeof(T), registration);
 
-            return this;
+            return registration;
         }
 
         public bool IsAlreadyRegister<T>()
@@ -60,6 +60,13 @@ namespace Infrastructure.DI
             }
 
             throw new InvalidOperationException($"Registration for {typeof(T)} not exists");
+        }
+
+        public void Init()
+        {
+            foreach (Registration registration in _container.Values)
+                if (registration.IsNonLazy)
+                    registration.CreateInstanceFrom(this);
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.Configs
+namespace Runtime.Configs.Gameplay.Gamemodes
 {
     public abstract class SymbolsSetConfig : ScriptableObject, ISymbolsSetConfig
     {

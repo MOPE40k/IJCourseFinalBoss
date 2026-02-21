@@ -1,6 +1,8 @@
 using System.Collections;
 using Infrastructure.DI;
+using Runtime.Utils.DataManagement.DataProviders;
 using UnityEngine;
+using Utils.ConfigsManagement;
 using Utils.CoroutinesManagement;
 using Utils.LoadingScreen;
 using Utils.SceneManagement;
@@ -17,6 +19,8 @@ namespace Infrastracture.EntryPoint
 
             ProjectContextRegistrations.Process(projectContainer);
 
+            projectContainer.Init();
+
             projectContainer.Resolve<ICoroutinePerformer>().StartPerform(Init(projectContainer));
         }
 
@@ -31,9 +35,22 @@ namespace Infrastracture.EntryPoint
         {
             ILoadingScreen loadingScreen = container.Resolve<ILoadingScreen>();
 
+            SceneSwitcherService sceneSwitcherService = container.Resolve<SceneSwitcherService>();
+
+            yield return container.Resolve<ConfigsProviderService>().LoadAsync();
+
+            PlayerDataProvider playerDataProvider = container.Resolve<PlayerDataProvider>();
+
             loadingScreen.Show();
 
-            SceneSwitcherService sceneSwitcherService = container.Resolve<SceneSwitcherService>();
+            bool isPlayerDataSaveExists = false;
+
+            yield return playerDataProvider.Exists(result => isPlayerDataSaveExists = result);
+
+            if (isPlayerDataSaveExists)
+                yield return playerDataProvider.Load();
+            else
+                playerDataProvider.Reset();
 
             yield return new WaitForSeconds(0.25f); // TEMP LOADING SCREEN DEMO
 

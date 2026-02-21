@@ -388,10 +388,15 @@ MonoBehaviour:
 
     -------------
 
-    Press "1" for Digits
+    Press ''1'' for Digits
 
-    Press "2"
-    for Letters'
+    Press ''2''
+    for Letters
+
+
+    Press ''i'' - Show Stats
+
+    Press ''r'' - Reset Stats'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
