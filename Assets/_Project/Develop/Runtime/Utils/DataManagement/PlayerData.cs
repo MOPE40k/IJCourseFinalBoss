@@ -7,9 +7,9 @@ namespace Utils.DataManagement
 {
     public class PlayerData : ISaveData
     {
-        // Settings
+        // Runtime
         public Dictionary<CurrencyTypes, int> WalletData = null;
-
         public Dictionary<SessionEndConditionTypes, int> SessionsResultsData = null;
+        public List<int> CompletedLevels = null;
     }
 }

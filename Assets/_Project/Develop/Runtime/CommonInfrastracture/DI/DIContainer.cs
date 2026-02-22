@@ -65,8 +65,18 @@ namespace Infrastructure.DI
         public void Init()
         {
             foreach (Registration registration in _container.Values)
+            {
                 if (registration.IsNonLazy)
                     registration.CreateInstanceFrom(this);
+
+                registration.OnInit();
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (Registration registration in _container.Values)
+                registration.OnDispose();
         }
     }
 }

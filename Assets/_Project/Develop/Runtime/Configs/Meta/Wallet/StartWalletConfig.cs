@@ -10,10 +10,10 @@ namespace Runtime.Configs.Meta.Wallet
     public class StartWalletConfig : ScriptableObject
     {
         [Header("Currencies Settings:")]
-        [SerializeField] private List<CurrencyConfig> _currencies = null;
+        [SerializeField] private List<CurrencyConfig> _configs = null;
 
         public int GetValueFor(CurrencyTypes type)
-            => _currencies.First(config => config.Type == type).Value;
+            => _configs.First(config => config.Type == type).Value;
 
         [Serializable]
         private class CurrencyConfig

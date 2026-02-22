@@ -26,9 +26,9 @@ namespace Runtime.Gameplay
 
         public void Run()
         {
-            _codePhrase = _container.Resolve<SequanceGenerationService>().GetRandomSequance(
-                _inputArgs.CharsConfig.SymbolsSet,
-                _inputArgs.CharsConfig.PhraseLength);
+            // _codePhrase = _container.Resolve<SequanceGenerationService>().GetRandomSequance(
+            //     _inputArgs.CharsConfig.SymbolsSet,
+            //     _inputArgs.CharsConfig.PhraseLength);
 
 #if UNITY_EDITOR
             Debug.Log($"CODE PHRASE: {_codePhrase}"); // TEST DEBUG

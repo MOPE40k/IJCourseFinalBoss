@@ -1,4 +1,5 @@
 using System;
+using Runtime.CommonInfrastracture.DI;
 
 namespace Infrastructure.DI
 {
@@ -27,6 +28,20 @@ namespace Infrastructure.DI
             _cachedInstance = _creator.Invoke(container);
 
             return _cachedInstance;
+        }
+
+        public void OnInit()
+        {
+            if (_cachedInstance != null)
+                if (_cachedInstance is IInitable initable)
+                    initable.Init();
+        }
+
+        public void OnDispose()
+        {
+            if (_cachedInstance != null)
+                if (_cachedInstance is IDisposable disposable)
+                    disposable.Dispose();
         }
 
         public void NonLazy()
