@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Runtime.Gameplay
 {
-    public class SequanceGenerationService
+    public class SequenceGenerationService
     {
-        public string GetRandomSequance(string chars, int length)
+        public string GetRandomSequence(string chars, int length)
         {
             string result = string.Empty;
 

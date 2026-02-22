@@ -1,1 +1,11 @@
-{"WalletData":{"Gold":235,"Diamond":30},"SessionsResultsData":{"Win":1,"Defeat":3}}
+{
+  "WalletData": {
+    "Gold": 250,
+    "Diamond": 20
+  },
+  "SessionsResultsData": {
+    "Win": 0,
+    "Defeat": 0
+  },
+  "CompletedLevels": []
+}

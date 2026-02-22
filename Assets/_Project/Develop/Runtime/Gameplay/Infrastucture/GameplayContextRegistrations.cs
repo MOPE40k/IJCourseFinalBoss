@@ -24,8 +24,8 @@ namespace Runtime.Gameplay.Infrastucture
             container.RegisterAsSingle(CreateGameResultService);
         }
 
-        private static SequanceGenerationService CreateSequanceGenerationService(DIContainer container)
-            => new SequanceGenerationService();
+        private static SequenceGenerationService CreateSequanceGenerationService(DIContainer container)
+            => new SequenceGenerationService();
 
         private static PhraseCompareService CreatePhraseCompareService(DIContainer container)
             => new PhraseCompareService();

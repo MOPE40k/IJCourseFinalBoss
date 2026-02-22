@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Runtime.Configs.Gameplay.Gamemodes;
+using Runtime.Configs.Gameplay.Levels;
 using Runtime.Configs.Meta.Wallet;
 using UnityEngine;
 using Utils.AssetsManagement;
@@ -19,7 +20,8 @@ namespace Utils.ConfigsManagement
             {typeof(LettersSetConfig), "Configs/Gameplay/Gamemodes/LettersSetConfig"},
             {typeof(StartWalletConfig), "Configs/Meta/Wallet/StartWalletConfig"},
             {typeof(ActionsCostsConfig), "Configs/Meta/ActionsCosts/ActionCostsConfig"},
-            {typeof(CurrencyIconsConfig), "Configs/Meta/Wallet/CurrencyIconsConfig"}
+            {typeof(CurrencyIconsConfig), "Configs/Meta/Wallet/CurrencyIconsConfig"},
+            {typeof(LevelsListConfig), "Configs/Gameplay/Levels/LevelsListConfig"}
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resourcesAssetsLoader)

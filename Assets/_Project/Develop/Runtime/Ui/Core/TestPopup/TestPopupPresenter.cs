@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Utils.CoroutinesManagement;
 
 namespace Runtime.Ui.Core.TestPopup
 {
@@ -9,7 +6,10 @@ namespace Runtime.Ui.Core.TestPopup
     {
         private readonly TestPopupView _view = null;
 
-        public TestPopupPresenter(TestPopupView view)
+        public TestPopupPresenter(
+            TestPopupView view,
+            ICoroutinePerformer coroutinePerformer)
+            : base(coroutinePerformer)
         {
             _view = view;
         }

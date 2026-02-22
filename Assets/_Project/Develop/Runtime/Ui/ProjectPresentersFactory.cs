@@ -1,12 +1,16 @@
 using Infrastructure.DI;
 using Runtime.Configs.Meta.Wallet;
+using Runtime.Meta.Features.LevelProgression;
 using Runtime.Meta.Features.Wallet;
 using Runtime.Ui.CommonViews;
 using Runtime.Ui.Core;
 using Runtime.Ui.Core.TestPopup;
+using Runtime.Ui.LevelMenuPopup;
 using Runtime.Ui.Wallet;
 using Utils.ConfigsManagement;
+using Utils.CoroutinesManagement;
 using Utils.Reactive;
+using Utils.SceneManagement;
 
 namespace Runtime.Ui
 {
@@ -38,6 +42,25 @@ namespace Runtime.Ui
                 view);
 
         public TestPopupPresenter CreateTestPopupPresenter(TestPopupView view)
-            => new TestPopupPresenter(view);
+            => new TestPopupPresenter(
+                view,
+                _container.Resolve<ICoroutinePerformer>());
+
+        public LevelTilePresenter CreateLevelTilePresenter(LevelTileView view, int levelNumber)
+            => new LevelTilePresenter(
+                _container.Resolve<LevelProgressionService>(),
+                _container.Resolve<SceneSwitcherService>(),
+                _container.Resolve<ICoroutinePerformer>(),
+                view,
+                levelNumber);
+
+        public LevelsPopupMenuPresenter CreateLevelsPopupMenuPresenter(LevelsMenuPopupView view)
+            => new LevelsPopupMenuPresenter(
+                _container.Resolve<ConfigsProviderService>(),
+                this,
+                _container.Resolve<ViewsFactory>(),
+                view,
+                _container.Resolve<ICoroutinePerformer>()
+            );
     }
 }

@@ -5,5 +5,7 @@ namespace Runtime.Ui.Core
         public const string CurrencyView = nameof(CurrencyView);
         public const string MainMenuScreenView = nameof(MainMenuScreenView);
         public const string TestPopup = nameof(TestPopup);
+        public const string LevelTile = nameof(LevelTile);
+        public const string LevelsMenuPopup = nameof(LevelsMenuPopup);
     }
 }

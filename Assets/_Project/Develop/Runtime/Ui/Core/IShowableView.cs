@@ -1,9 +1,11 @@
+using DG.Tweening;
+
 namespace Runtime.Ui.Core
 {
     public interface IShowableView : IView
     {
-        void Show();
+        Tween Show();
 
-        void Hide();
+        Tween Hide();
     }
 }

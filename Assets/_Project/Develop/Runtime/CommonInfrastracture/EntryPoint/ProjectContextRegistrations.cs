@@ -18,6 +18,7 @@ using Runtime.Utils.DataManagement.DataProviders;
 using Runtime.Meta.Features.Sessions;
 using Runtime.Ui;
 using Runtime.Ui.Core;
+using Runtime.Meta.Features.LevelProgression;
 
 namespace Infrastracture.EntryPoint
 {
@@ -39,6 +40,7 @@ namespace Infrastracture.EntryPoint
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle(CreateWalletService).NonLazy();
             container.RegisterAsSingle(CreateSessionConditionCounterService).NonLazy();
+            container.RegisterAsSingle(CreateLevelProgressionService).NonLazy();
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             container.RegisterAsSingle(CreatePlayerDataProvider);
             container.RegisterAsSingle(CreateStatsShowService);
@@ -115,6 +117,10 @@ namespace Infrastracture.EntryPoint
                 container.Resolve<PlayerDataProvider>()
             );
         }
+
+        private static LevelProgressionService CreateLevelProgressionService(DIContainer container)
+            => new LevelProgressionService(
+                container.Resolve<PlayerDataProvider>());
 
         private static SaveLoadService CreateSaveLoadService(DIContainer container)
         {

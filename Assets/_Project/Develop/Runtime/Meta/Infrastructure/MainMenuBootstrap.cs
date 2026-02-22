@@ -9,6 +9,9 @@ using Runtime.Utils.Stats;
 using Runtime.Meta.Features.Stats;
 using Runtime.Meta.Features.Wallet;
 using Runtime.Ui.MainMenu;
+using Runtime.Utils.DataManagement;
+using Runtime.Utils.DataManagement.DataProviders;
+using Utils.CoroutinesManagement;
 
 namespace Runtime.Meta.Infrastructure
 {
@@ -16,10 +19,14 @@ namespace Runtime.Meta.Infrastructure
     {
         // Test
         private WalletService _walletService;
+        private PlayerDataProvider _playerDataProvider;
+        private ICoroutinePerformer _coroutinePerformer;
 
         public void Test()
         {
             _walletService = _container.Resolve<WalletService>();
+            _playerDataProvider = _container.Resolve<PlayerDataProvider>();
+            _coroutinePerformer = _container.Resolve<ICoroutinePerformer>();
         }
 
         // References
@@ -70,6 +77,18 @@ namespace Runtime.Meta.Infrastructure
 
             if (Input.GetKeyDown(KeyCode.Alpha8))
                 _walletService.Spend(CurrencyTypes.Diamond, 10);
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                Debug.Log("SAVE");
+                _coroutinePerformer.StartPerform(_playerDataProvider.Save());
+            }
+
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                Debug.Log("LOAD");
+                _coroutinePerformer.StartPerform(_playerDataProvider.Load());
+            }
         }
     }
 }

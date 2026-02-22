@@ -1,5 +1,8 @@
 using System;
+using DG.Tweening;
+using UnityEngine.UI;
 using UnityEngine;
+using IJCourseFinalBoss.Assets._Project.Develop.Runtime.Ui.Core;
 
 namespace Runtime.Ui.Core
 {
@@ -8,36 +11,67 @@ namespace Runtime.Ui.Core
         // Delegates
         public event Action CloseRequest = null;
 
-        [Header("Settings:")]
+        [Header("References:")]
         [SerializeField] private CanvasGroup _mainGroup = null;
+        [SerializeField] private Image _anticlicker = null;
+        [SerializeField] private CanvasGroup _body = null;
+        [SerializeField] private PopupAnimationTypes _animationType = PopupAnimationTypes.None;
+
+        // Runtime
+        private float _anticlickerDefaultAlpha = 0f;
+        private Tween _currentTween = null;
 
         private void Awake()
         {
+            _anticlickerDefaultAlpha = _anticlicker.color.a;
+
             _mainGroup.alpha = 0f;
         }
 
         public void OnCloseButtonClicked()
             => CloseRequest?.Invoke();
 
-        public void Show()
+        public Tween Show()
         {
+            KillCurrentTween();
+
             OnPreShow();
 
-            // animations
             _mainGroup.alpha = 1f;
 
-            OnPostShow();
+            Sequence animation = PopupAnimationFactory
+                .CreateShowAnimation(_body, _anticlicker, _animationType, _anticlickerDefaultAlpha)
+                .OnComplete(OnPostShow);
+
+            ModifyShowAnimation(animation);
+
+            _currentTween = animation;
+
+            return _currentTween.SetUpdate(true).Play();
         }
 
-        public void Hide()
+        public Tween Hide()
         {
+            KillCurrentTween();
+
             OnPreHide();
 
-            // Animations
-            _mainGroup.alpha = 0f;
+            Sequence animation = PopupAnimationFactory
+                .CreateHideAnimation(_body, _anticlicker, _animationType, _anticlickerDefaultAlpha)
+                .OnComplete(OnPostHide);
 
-            OnPostHide();
+            ModifyHideAnimation(animation);
+
+            _currentTween = animation;
+
+            return _currentTween.SetUpdate(true).Play();
         }
+
+        protected virtual void ModifyShowAnimation(Sequence tweenSequence)
+        { }
+
+        protected virtual void ModifyHideAnimation(Sequence tweenSequence)
+        { }
 
         protected virtual void OnPostShow()
         { }
@@ -50,5 +84,11 @@ namespace Runtime.Ui.Core
 
         protected virtual void OnPostHide()
         { }
+
+        private void OnDestroy()
+            => KillCurrentTween();
+
+        private void KillCurrentTween()
+            => _currentTween?.Kill();
     }
 }
