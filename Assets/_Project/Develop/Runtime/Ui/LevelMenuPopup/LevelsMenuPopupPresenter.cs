@@ -6,10 +6,12 @@ using Utils.CoroutinesManagement;
 
 namespace Runtime.Ui.LevelMenuPopup
 {
-    public class LevelsPopupMenuPresenter : PopupPresenterBase
+    public class LevelsMenuPopupPresenter : PopupPresenterBase
     {
+        // Const
         private const string TitleName = "Levels:";
 
+        // Refernces
         private readonly ConfigsProviderService _configsProviderService = null;
         private readonly ProjectPresentersFactory _presentersFactory = null;
         private readonly ViewsFactory _viewsFactory = null;
@@ -18,7 +20,7 @@ namespace Runtime.Ui.LevelMenuPopup
         // Runtime
         private readonly List<LevelTilePresenter> _levelTilePresenters = new();
 
-        public LevelsPopupMenuPresenter(
+        public LevelsMenuPopupPresenter(
             ConfigsProviderService configsProviderService,
             ProjectPresentersFactory presentersFactory,
             ViewsFactory viewsFactory,
@@ -31,6 +33,7 @@ namespace Runtime.Ui.LevelMenuPopup
             _view = view;
         }
 
+        // Runtime
         protected override PopupViewBase PopupView => _view;
 
         public override void Init()

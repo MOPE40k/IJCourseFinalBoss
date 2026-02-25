@@ -12,6 +12,7 @@ namespace Runtime.Configs.Gameplay.Gamemodes
         public string SymbolsSet => _symbolsSet;
         public int PhraseLength => _phraseLength;
 
+#if UNITY_EDITOR
         private void OnValidate()
             => InputCheck();
 
@@ -32,5 +33,6 @@ namespace Runtime.Configs.Gameplay.Gamemodes
         }
 
         protected abstract string SymbolsCheck(string originalInput);
+#endif
     }
 }

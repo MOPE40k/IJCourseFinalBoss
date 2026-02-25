@@ -1,11 +1,16 @@
 using Infrastructure.DI;
+using Runtime.Configs.Meta.SessionResult;
 using Runtime.Configs.Meta.Wallet;
 using Runtime.Meta.Features.LevelProgression;
+using Runtime.Meta.Features.Sessions;
+using Runtime.Meta.Features.Stats;
 using Runtime.Meta.Features.Wallet;
 using Runtime.Ui.CommonViews;
 using Runtime.Ui.Core;
-using Runtime.Ui.Core.TestPopup;
 using Runtime.Ui.LevelMenuPopup;
+using Runtime.Ui.ResetStatsPopup;
+using Runtime.Ui.SessionsResults;
+using Runtime.Ui.TextField;
 using Runtime.Ui.Wallet;
 using Utils.ConfigsManagement;
 using Utils.CoroutinesManagement;
@@ -41,11 +46,6 @@ namespace Runtime.Ui
                 _container.Resolve<ViewsFactory>(),
                 view);
 
-        public TestPopupPresenter CreateTestPopupPresenter(TestPopupView view)
-            => new TestPopupPresenter(
-                view,
-                _container.Resolve<ICoroutinePerformer>());
-
         public LevelTilePresenter CreateLevelTilePresenter(LevelTileView view, int levelNumber)
             => new LevelTilePresenter(
                 _container.Resolve<LevelProgressionService>(),
@@ -54,13 +54,44 @@ namespace Runtime.Ui
                 view,
                 levelNumber);
 
-        public LevelsPopupMenuPresenter CreateLevelsPopupMenuPresenter(LevelsMenuPopupView view)
-            => new LevelsPopupMenuPresenter(
+        public LevelsMenuPopupPresenter CreateLevelsPopupMenuPresenter(LevelsMenuPopupView view)
+            => new LevelsMenuPopupPresenter(
                 _container.Resolve<ConfigsProviderService>(),
                 this,
                 _container.Resolve<ViewsFactory>(),
                 view,
-                _container.Resolve<ICoroutinePerformer>()
-            );
+                _container.Resolve<ICoroutinePerformer>());
+
+        public ResetStatsPopupPresenter CreateResetStatsPopupPresenter(ResetStatsPopupView view)
+            => new ResetStatsPopupPresenter(
+                view,
+                _container.Resolve<ResetStatsService>(),
+                _container.Resolve<ICoroutinePerformer>());
+
+        public ResultPresenter CreateResultPresenter(
+            IReadOnlyVeriable<int> result,
+            SessionEndConditionTypes sessionEndConditionType,
+            IconTextView view)
+        {
+            return new ResultPresenter(
+                result,
+                sessionEndConditionType,
+                _container.Resolve<ConfigsProviderService>().GetConfig<SessionResultIconConfig>(),
+                view);
+        }
+
+        public SessionsResultsPresenter CreateSessionsResultsPresenter(IconTextListView view)
+            => new SessionsResultsPresenter(
+                _container.Resolve<SessionsResultsCounterService>(),
+                _container.Resolve<ProjectPresentersFactory>(),
+                _container.Resolve<ViewsFactory>(),
+                view);
+
+        public TextFieldPresenter CreateTextFieldPresenter(
+            IReadOnlyVeriable<string> text,
+            TextView view)
+        {
+            return new TextFieldPresenter(text, view);
+        }
     }
 }

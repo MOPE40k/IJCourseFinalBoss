@@ -6,12 +6,12 @@ namespace Runtime.Gameplay.Infrastucture
     public class GameplayInputArgs : IInputSceneArgs
     {
         // References
-        //public ISymbolsSetConfig CharsConfig { get; private set; } = null;
+        public ISymbolsSetConfig CharsConfig { get; private set; } = null;
         public int LevelNumber = 0;
-
-        public GameplayInputArgs(int levelNumber)
-            => LevelNumber = levelNumber;
-        // public GameplayInputArgs(ISymbolsSetConfig charsConfig)
-        //     => CharsConfig = charsConfig;
+        public GameplayInputArgs(ISymbolsSetConfig charsConfig, int levelNumber = 0)
+        {
+            CharsConfig = charsConfig;
+            LevelNumber = levelNumber;
+        }
     }
 }

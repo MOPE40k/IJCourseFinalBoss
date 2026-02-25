@@ -12,13 +12,13 @@ using Utils.Reactive;
 using Runtime.Utils.DataManagement;
 using Utils.DataManagement.KeyStorage;
 using Utils.DataManagement.Serializers;
-using Runtime.Utils.Stats;
 using Runtime.Utils.DataManagement.DataRepository;
 using Runtime.Utils.DataManagement.DataProviders;
 using Runtime.Meta.Features.Sessions;
 using Runtime.Ui;
 using Runtime.Ui.Core;
 using Runtime.Meta.Features.LevelProgression;
+using Runtime.Meta.Features.Stats;
 
 namespace Infrastracture.EntryPoint
 {
@@ -39,14 +39,22 @@ namespace Infrastracture.EntryPoint
             container.RegisterAsSingle(CreateSceneLoaderService);
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle(CreateWalletService).NonLazy();
-            container.RegisterAsSingle(CreateSessionConditionCounterService).NonLazy();
+            container.RegisterAsSingle(CreateSessionsResultsCounterService).NonLazy();
             container.RegisterAsSingle(CreateLevelProgressionService).NonLazy();
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             container.RegisterAsSingle(CreatePlayerDataProvider);
-            container.RegisterAsSingle(CreateStatsShowService);
             container.RegisterAsSingle(CreateProjectPresentersFactory);
             container.RegisterAsSingle(CreateViewsFactory);
+            container.RegisterAsSingle(CreateResetStatsService);
         }
+
+        private static ResetStatsService CreateResetStatsService(DIContainer container)
+            => new ResetStatsService(
+                container.Resolve<WalletService>(),
+                container.Resolve<PlayerDataProvider>(),
+                container.Resolve<SessionsResultsCounterService>(),
+                container.Resolve<ConfigsProviderService>(),
+                container.Resolve<ICoroutinePerformer>());
 
         private static CoroutinePerformer CreateCoroutinePerformer(DIContainer container)
         {
@@ -105,14 +113,14 @@ namespace Infrastracture.EntryPoint
                 container.Resolve<PlayerDataProvider>());
         }
 
-        private static SessionConditionCounterService CreateSessionConditionCounterService(DIContainer container)
+        private static SessionsResultsCounterService CreateSessionsResultsCounterService(DIContainer container)
         {
             Dictionary<SessionEndConditionTypes, ReactiveVeriable<int>> sessionsResults = new();
 
             foreach (SessionEndConditionTypes type in Enum.GetValues(typeof(SessionEndConditionTypes)))
                 sessionsResults[type] = new ReactiveVeriable<int>();
 
-            return new SessionConditionCounterService(
+            return new SessionsResultsCounterService(
                 sessionsResults,
                 container.Resolve<PlayerDataProvider>()
             );
@@ -140,12 +148,6 @@ namespace Infrastracture.EntryPoint
             => new PlayerDataProvider(
                 container.Resolve<ISaveLoadService>(),
                 container.Resolve<ConfigsProviderService>()
-            );
-
-        private static StatsShowService CreateStatsShowService(DIContainer container)
-            => new StatsShowService(
-                container.Resolve<SessionConditionCounterService>(),
-                container.Resolve<WalletService>()
             );
 
         private static ProjectPresentersFactory CreateProjectPresentersFactory(DIContainer container)

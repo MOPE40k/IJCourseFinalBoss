@@ -7,21 +7,22 @@ namespace Runtime.Ui.Core
 {
     public class ViewsFactory
     {
+        // References
         private readonly ResourcesAssetsLoader _resourcesAssetsLoader = null;
-
         private readonly Dictionary<string, string> _viewIdToResourcesPath = new()
         {
-            {ViewIds.CurrencyView, "Ui/Wallet/CurrencyView"},
-            {ViewIds.MainMenuScreenView, "Ui/MainMenu/MainMenuScreenView"},
-            {ViewIds.TestPopup, "Ui/TestPopup"},
-            {ViewIds.LevelTile, "LevelsMenuPopup/LevelTile"},
-            {ViewIds.LevelsMenuPopup, "LevelsMenuPopup/LevelsMenuPopup"}
+            { ViewIds.CurrencyView, "Ui/Wallet/CurrencyView" },
+            { ViewIds.ResultView, "Ui/SessionsResults/SessionResult" },
+            { ViewIds.MainMenuScreenView, "Ui/MainMenu/MainMenuScreenView" },
+            { ViewIds.GameplayScreenView, "Ui/Gameplay/GameplayScreenView" },
+            { ViewIds.LevelTile, "Ui/LevelsMenuPopup/LevelTile" },
+            { ViewIds.LevelsMenuPopup, "Ui/LevelsMenuPopup/LevelsMenuPopup" },
+            { ViewIds.ResetStatsPopup, "Ui/ResetStatsPopup/ResetStatsPopup" },
+            { ViewIds.EndSessionPopup, "Ui/EndSession/EndSessionPopup" }
         };
 
         public ViewsFactory(ResourcesAssetsLoader resourcesAssetsLoader)
-        {
-            _resourcesAssetsLoader = resourcesAssetsLoader;
-        }
+            => _resourcesAssetsLoader = resourcesAssetsLoader;
 
         public TView Create<TView>(string viewId, Transform parent = null) where TView : MonoBehaviour, IView
         {

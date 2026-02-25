@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: ActionCostsConfig
   m_EditorClassIdentifier: 
   _penaltyRewards:
-  - <Type>k__BackingField: 0
+  - <EndCondition>k__BackingField: 0
     <Value>k__BackingField: 50
-  - <Type>k__BackingField: 1
+  - <EndCondition>k__BackingField: 1
     <Value>k__BackingField: 25
-  _resetCost: 10
+  _resetCosts:
+  - <Currency>k__BackingField: 0
+    <Cost>k__BackingField: 10
+  - <Currency>k__BackingField: 1
+    <Cost>k__BackingField: 1

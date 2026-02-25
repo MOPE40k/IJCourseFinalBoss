@@ -31,8 +31,8 @@ namespace Runtime.Utils.ConfigsManagement
 
         private void LoadSceneFor(ISymbolsSetConfig config)
         {
-            // _coroutinePerformer.StartPerform(
-            //     _sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(config)));
+            _coroutinePerformer.StartPerform(
+                _sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(config)));
         }
     }
 }

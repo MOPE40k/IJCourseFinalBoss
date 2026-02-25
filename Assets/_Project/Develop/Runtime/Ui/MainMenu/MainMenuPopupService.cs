@@ -1,12 +1,11 @@
 using Runtime.Ui.Core;
 using UnityEngine;
-using System;
-
 
 namespace Runtime.Ui.MainMenu
 {
     public class MainMenuPopupService : PopupService
     {
+        // References
         private readonly MainMenuUiRoot _mainMenuUiRoot = null;
 
         public MainMenuPopupService(
@@ -18,6 +17,7 @@ namespace Runtime.Ui.MainMenu
             _mainMenuUiRoot = mainMenuUiRoot;
         }
 
+        // Runtime
         protected override Transform PopupLayer => _mainMenuUiRoot.PopupsLayer;
     }
 }

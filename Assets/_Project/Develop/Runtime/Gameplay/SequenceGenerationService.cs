@@ -1,9 +1,14 @@
 using UnityEngine;
+using Utils.Reactive;
 
 namespace Runtime.Gameplay
 {
     public class SequenceGenerationService
     {
+        // Runtime
+        private ReactiveVeriable<string> _codePhrase = new(string.Empty);
+        public IReadOnlyVeriable<string> CodePhrase => _codePhrase;
+
         public string GetRandomSequence(string chars, int length)
         {
             string result = string.Empty;
@@ -14,6 +19,8 @@ namespace Runtime.Gameplay
 
                 result += randomChar;
             }
+
+            _codePhrase.Value = result;
 
             return result;
         }

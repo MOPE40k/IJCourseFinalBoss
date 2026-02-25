@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Runtime.Ui.Core.TestPopup;
 using Runtime.Ui.LevelMenuPopup;
+using Runtime.Ui.ResetStatsPopup;
 using UnityEngine;
 
 namespace Runtime.Ui.Core
@@ -9,8 +9,8 @@ namespace Runtime.Ui.Core
     public abstract class PopupService : IDisposable
     {
         // References
-        protected readonly ViewsFactory _viewsFactory = null;
         private readonly ProjectPresentersFactory _projectPresentersFactory = null;
+        private readonly ViewsFactory _viewsFactory = null;
 
         // Runtime
         private readonly Dictionary<PopupPresenterBase, PopupInfo> _presenterToInfo = new();
@@ -23,24 +23,25 @@ namespace Runtime.Ui.Core
             _projectPresentersFactory = projectPresentersFactory;
         }
 
+        // Runtime
         protected abstract Transform PopupLayer { get; }
 
-        public TestPopupPresenter OpenTestPopup(Action closedCallback = null)
-        {
-            TestPopupView view = _viewsFactory.Create<TestPopupView>(ViewIds.TestPopup, PopupLayer);
-
-            TestPopupPresenter popup = _projectPresentersFactory.CreateTestPopupPresenter(view);
-
-            OnPopupCreated(popup, view, closedCallback);
-
-            return popup;
-        }
-
-        public LevelsPopupMenuPresenter OpenLevelPopup()
+        public LevelsMenuPopupPresenter OpenLevelPopup()
         {
             LevelsMenuPopupView view = _viewsFactory.Create<LevelsMenuPopupView>(ViewIds.LevelsMenuPopup, PopupLayer);
 
-            LevelsPopupMenuPresenter presenter = _projectPresentersFactory.CreateLevelsPopupMenuPresenter(view);
+            LevelsMenuPopupPresenter presenter = _projectPresentersFactory.CreateLevelsPopupMenuPresenter(view);
+
+            OnPopupCreated(presenter, view);
+
+            return presenter;
+        }
+
+        public ResetStatsPopupPresenter OpenResetMenuPopup()
+        {
+            ResetStatsPopupView view = _viewsFactory.Create<ResetStatsPopupView>(ViewIds.ResetStatsPopup, PopupLayer);
+
+            ResetStatsPopupPresenter presenter = _projectPresentersFactory.CreateResetStatsPopupPresenter(view);
 
             OnPopupCreated(presenter, view);
 

@@ -41,9 +41,7 @@ namespace Runtime.Ui.Wallet
         }
 
         public void Dispose()
-        {
-            _disposable.Dispose();
-        }
+            => _disposable.Dispose();
 
         private void OnValueChanged(int oldValue, int newValue)
             => UpdateValue(newValue);

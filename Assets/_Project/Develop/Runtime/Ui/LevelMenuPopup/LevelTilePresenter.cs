@@ -1,4 +1,3 @@
-using Runtime.Gameplay.Infrastucture;
 using Runtime.Meta.Features.LevelProgression;
 using Runtime.Ui.Core;
 using UnityEngine;
@@ -32,6 +31,7 @@ namespace Runtime.Ui.LevelMenuPopup
             _levelNumber = levelNumber;
         }
 
+        // Runtime
         public LevelTileView View => _view;
 
         public void Init()
@@ -73,10 +73,10 @@ namespace Runtime.Ui.LevelMenuPopup
                 return;
             }
 
-            _coroutinePerformer
-                .StartPerform(
-                    _sceneSwitcherService
-                        .ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(_levelNumber)));
+            // _coroutinePerformer
+            //     .StartPerform(
+            //         _sceneSwitcherService
+            //             .ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(_levelNumber)));
         }
     }
 }

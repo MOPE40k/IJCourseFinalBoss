@@ -1,36 +1,41 @@
 using System.Collections.Generic;
-using Runtime.Ui.MainMenu;
 using Runtime.Ui.Core;
 using Runtime.Ui.Wallet;
-using System;
+using Runtime.Ui.SessionsResults;
+using Runtime.Utils.ConfigsManagement;
 
 namespace Runtime.Ui.MainMenu
 {
-    public class MainMenuScreenPresenter : IPresenter
+    public class MainMenuScreenPresenter : ISubscribePresenter
     {
         // References
-        private readonly MainMenuScreenView _mainMenuScreenView = null;
+        private readonly MainMenuScreenView _view = null;
         private readonly ProjectPresentersFactory _projectPresentersFactory = null;
         private readonly MainMenuPopupService _mainMenuPopupService = null;
+        private readonly GamemodeConfigProvider _gamemodeConfigProvider = null;
 
         // Runtime
         private readonly List<IPresenter> _childPresenters = new();
 
         public MainMenuScreenPresenter(
-            MainMenuScreenView mainMenuScreenView,
+            MainMenuScreenView view,
             ProjectPresentersFactory projectPresentersFactory,
-            MainMenuPopupService mainMenuPopupService)
+            MainMenuPopupService mainMenuPopupService,
+            GamemodeConfigProvider gamemodeConfigProvider)
         {
-            _mainMenuScreenView = mainMenuScreenView;
+            _view = view;
             _projectPresentersFactory = projectPresentersFactory;
             _mainMenuPopupService = mainMenuPopupService;
+            _gamemodeConfigProvider = gamemodeConfigProvider;
         }
 
         public void Init()
         {
-            _mainMenuScreenView.OnLevelsMenuButtonClicked += OnOpenLevelsMenuButtonClicked;
+            Subscribe();
 
             CreateWallet();
+
+            CreateSessionsResults();
 
             foreach (IPresenter presenter in _childPresenters)
                 presenter.Init();
@@ -38,7 +43,7 @@ namespace Runtime.Ui.MainMenu
 
         public void Dispose()
         {
-            _mainMenuScreenView.OnLevelsMenuButtonClicked -= OnOpenLevelsMenuButtonClicked;
+            Unsubscribe();
 
             foreach (IPresenter presenter in _childPresenters)
                 presenter.Dispose();
@@ -46,16 +51,44 @@ namespace Runtime.Ui.MainMenu
             _childPresenters.Clear();
         }
 
+        public void Subscribe()
+        {
+            _view.LettersModeButtonClicked += OnLettersModeButtonClicked;
+            _view.DigitsModeButtonClicked += OnDigitsModeButtonClicked;
+            _view.ResetStatsButtonClicked += OnResetStatsButtonClicked;
+        }
+
+        public void Unsubscribe()
+        {
+            _view.LettersModeButtonClicked -= OnLettersModeButtonClicked;
+            _view.DigitsModeButtonClicked -= OnDigitsModeButtonClicked;
+            _view.ResetStatsButtonClicked -= OnResetStatsButtonClicked;
+
+        }
+
         private void CreateWallet()
         {
-            WalletPresenter walletPresenter = _projectPresentersFactory.CreateWalletPresenter(_mainMenuScreenView.WalletView);
+            WalletPresenter walletPresenter = _projectPresentersFactory
+                .CreateWalletPresenter(_view.WalletView);
 
             _childPresenters.Add(walletPresenter);
         }
 
-        private void OnOpenLevelsMenuButtonClicked()
+        private void CreateSessionsResults()
         {
-            _mainMenuPopupService.OpenLevelPopup();
+            SessionsResultsPresenter sessionsResultsPresenter = _projectPresentersFactory
+                .CreateSessionsResultsPresenter(_view.SessionsResultsView);
+
+            _childPresenters.Add(sessionsResultsPresenter);
         }
+
+        private void OnLettersModeButtonClicked()
+            => _gamemodeConfigProvider.LettersModeLoad();
+
+        private void OnDigitsModeButtonClicked()
+            => _gamemodeConfigProvider.DigitsModeLoad();
+
+        private void OnResetStatsButtonClicked()
+            => _mainMenuPopupService.OpenResetMenuPopup();
     }
 }

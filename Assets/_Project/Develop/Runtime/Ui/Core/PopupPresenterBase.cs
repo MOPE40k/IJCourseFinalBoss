@@ -18,17 +18,13 @@ namespace Runtime.Ui.Core
         private Coroutine _process = null;
 
         protected PopupPresenterBase(ICoroutinePerformer coroutinePerformer)
-        {
-            _coroutinePerformer = coroutinePerformer;
-        }
+            => _coroutinePerformer = coroutinePerformer;
 
         // Runtime
         protected abstract PopupViewBase PopupView { get; }
 
         public virtual void Init()
-        {
-
-        }
+        { }
 
         public virtual void Dispose()
         {

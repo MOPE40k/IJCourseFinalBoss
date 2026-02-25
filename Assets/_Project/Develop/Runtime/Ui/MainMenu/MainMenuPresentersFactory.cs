@@ -1,4 +1,5 @@
 using Infrastructure.DI;
+using Runtime.Utils.ConfigsManagement;
 
 namespace Runtime.Ui.MainMenu
 {
@@ -10,10 +11,11 @@ namespace Runtime.Ui.MainMenu
         public MainMenuPresentersFactory(DIContainer container)
             => _container = container;
 
-        public MainMenuScreenPresenter CreatMainMenuScreenPresenter(MainMenuScreenView view)
+        public MainMenuScreenPresenter CreateMainMenuScreenPresenter(MainMenuScreenView view)
             => new MainMenuScreenPresenter(
                 view,
                 _container.Resolve<ProjectPresentersFactory>(),
-                _container.Resolve<MainMenuPopupService>());
+                _container.Resolve<MainMenuPopupService>(),
+                _container.Resolve<GamemodeConfigProvider>());
     }
 }

@@ -1,16 +1,17 @@
 using System.Collections.Generic;
+using System.Linq;
 using Runtime.Utils.DataManagement.DataProviders;
 using Utils.DataManagement;
 using Utils.Reactive;
 
 namespace Runtime.Meta.Features.Sessions
 {
-    public class SessionConditionCounterService : IDataReader<PlayerData>, IDataWriter<PlayerData>
+    public class SessionsResultsCounterService : IDataReader<PlayerData>, IDataWriter<PlayerData>
     {
         // Runtime
         private readonly Dictionary<SessionEndConditionTypes, ReactiveVeriable<int>> _sessionsResults = null;
 
-        public SessionConditionCounterService(
+        public SessionsResultsCounterService(
             Dictionary<SessionEndConditionTypes, ReactiveVeriable<int>> sessionsResults,
             PlayerDataProvider playerDataProvider)
         {
@@ -20,11 +21,20 @@ namespace Runtime.Meta.Features.Sessions
             playerDataProvider.RegisterWriter(this);
         }
 
+        // Runtime
+        public SessionEndConditionTypes[] AvailableSessionEndConditions => _sessionsResults.Keys.ToArray();
+
         public IReadOnlyVeriable<int> GetCondition(SessionEndConditionTypes type)
             => _sessionsResults[type];
 
         public void Add(SessionEndConditionTypes type)
             => _sessionsResults[type].Value++;
+
+        public void Reset()
+        {
+            foreach (KeyValuePair<SessionEndConditionTypes, ReactiveVeriable<int>> pair in _sessionsResults)
+                pair.Value.Value = 0;
+        }
 
         public void ReadFrom(PlayerData data)
         {
