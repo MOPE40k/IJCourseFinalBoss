@@ -1,40 +1,56 @@
-using Infrastructure.DI;
+using System.Collections;
 using Runtime.Gameplay.Infrastucture;
+using Runtime.Utils.DataManagement.DataProviders;
+using Runtime.Utils.SceneManagement;
 using UnityEngine;
 using Utils.CoroutinesManagement;
 using Utils.InputManagement;
+using Utils.Reactive;
+using Utils.SceneManagement;
 
 namespace Runtime.Gameplay
 {
     public class GameplayCycle
     {
         // References
-        private readonly DIContainer _container = null;
+        private readonly SequenceGenerationService _sequenceGenerationService = null;
+        private readonly GameSessionDetermineService _gameSessionDetermineService = null;
+        private readonly SceneSwitcherService _sceneSwitcherService = null;
+        private readonly PlayerDataProvider _playerDataProvider = null;
+        private readonly ICoroutinePerformer _coroutinePerformer = null;
         private readonly GameplayInputArgs _inputArgs = null;
 
         // Runtime
-        private string _codePhrase = string.Empty;
-        private string _currentInput = string.Empty;
+        private ReactiveVeriable<string> _currentInput = new(string.Empty);
         private bool _isRunning = false;
+        private string _nextSceneName = string.Empty;
 
-        public GameplayCycle(DIContainer container, GameplayInputArgs inputArgs)
+        public GameplayCycle(
+            SequenceGenerationService sequenceGenerationService,
+            GameSessionDetermineService gameSessionDetermineService,
+            SceneSwitcherService sceneSwitcherService,
+            PlayerDataProvider playerDataProvider,
+            ICoroutinePerformer coroutinePerformer,
+            GameplayInputArgs inputArgs)
         {
-            _container = container;
-
+            _sequenceGenerationService = sequenceGenerationService;
+            _gameSessionDetermineService = gameSessionDetermineService;
+            _sceneSwitcherService = sceneSwitcherService;
+            _playerDataProvider = playerDataProvider;
+            _coroutinePerformer = coroutinePerformer;
             _inputArgs = inputArgs;
         }
 
+        // Runtime
+        public IReadOnlyVeriable<string> CurrentInput => _currentInput;
+
         public void Run()
         {
-            _codePhrase = _container.Resolve<SequanceGenerationService>().GetRandomSequance(
+            _sequenceGenerationService.GetRandomSequence(
                 _inputArgs.CharsConfig.SymbolsSet,
                 _inputArgs.CharsConfig.PhraseLength);
 
-#if UNITY_EDITOR
-            Debug.Log($"CODE PHRASE: {_codePhrase}"); // TEST DEBUG
-#endif
-
-            _isRunning = true;
+            StartGameplay();
         }
 
         public void UpdateTick(float deltaTime)
@@ -47,39 +63,72 @@ namespace Runtime.Gameplay
                     InputProcess(c);
         }
 
-        public void InputProcess(char c)
+        public void DetermineSessionResult()
         {
-            if (c == InputChars.NewlineChar || c == InputChars.ReturnChar)
+            StopGameplay();
+
+            _nextSceneName = _gameSessionDetermineService.DetermineResult(
+                CurrentInput.Value,
+                _sequenceGenerationService.CodePhrase.Value);
+
+            _coroutinePerformer.StartPerform(_playerDataProvider.Save());
+
+            _coroutinePerformer.StartPerform(SceneSwitchTo(_nextSceneName));
+        }
+
+        public IEnumerator SceneSwitchTo(string sceneName)
+        {
+            yield return _sceneSwitcherService.ProcessSwitchTo(sceneName, _inputArgs as IInputSceneArgs);
+        }
+
+        private void InputProcess(char c)
+        {
+            if (IsEnterKeyEntered(c))
             {
-                _isRunning = false;
+                if (_isRunning == false)
+                    return;
 
-                GameSessionDetermineService gameResultService = _container.Resolve<GameSessionDetermineService>();
-
-                _container.Resolve<ICoroutinePerformer>().StartPerform(
-                    gameResultService.DetermineResult(_currentInput, _codePhrase, _inputArgs));
+                DetermineSessionResult();
             }
-            else if (c == InputChars.BackspaceChar)
+            else if (IsBackspaceKeyEntered(c))
             {
-                if (string.IsNullOrEmpty(_currentInput) == false)
+                if (string.IsNullOrEmpty(_currentInput.Value) == false)
                 {
-                    _currentInput = _currentInput.Substring(0, _currentInput.Length - 1);
-
-#if UNITY_EDITOR
-                    Debug.Log($"CURRENT_INPUT: {_currentInput}"); //TEST
-#endif
+                    RemoveLastCharFromResultInput();
                 }
             }
             else
             {
-                if (char.IsLetterOrDigit(c))
+                if (IsLetterOrDigitEntered(c))
                 {
-                    _currentInput += c;
-
-#if UNITY_EDITOR
-                    Debug.Log($"CURRENT_INPUT: {_currentInput}"); //TEST
-#endif
+                    AddCharToResultInput(c);
                 }
             }
         }
+
+        private void StartGameplay()
+            => _isRunning = true;
+
+        public void StopGameplay()
+            => _isRunning = false;
+
+        private bool IsEnterKeyEntered(char c)
+            => c == InputChars.NewlineChar || c == InputChars.ReturnChar;
+
+        private bool IsBackspaceKeyEntered(char c)
+            => c == InputChars.BackspaceChar;
+
+        private bool IsLetterOrDigitEntered(char c)
+            => char.IsLetterOrDigit(c);
+
+        private void RemoveLastCharFromResultInput()
+        {
+            int lastCharIndex = _currentInput.Value.Length - 1;
+
+            _currentInput.Value = _currentInput.Value.Substring(0, lastCharIndex);
+        }
+
+        private void AddCharToResultInput(char c)
+            => _currentInput.Value += c;
     }
 }

@@ -11,7 +11,7 @@ namespace Utils.DataManagement.Serializers
         {
             _settings = new JsonSerializerSettings()
             {
-                Formatting = Formatting.None,
+                Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Auto
             };
         }

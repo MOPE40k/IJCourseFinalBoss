@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9edd2643e57c646f4bda3dd554f476c4, type: 3}
   m_Name: LettersSetConfig
   m_EditorClassIdentifier: 
-  _symbolsSet: abc
-  _phraseLength: 3
+  _symbolsSet: abcde
+  _phraseLength: 5

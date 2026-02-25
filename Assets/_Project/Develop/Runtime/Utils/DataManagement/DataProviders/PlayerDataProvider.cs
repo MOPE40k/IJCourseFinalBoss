@@ -25,7 +25,8 @@ namespace Runtime.Utils.DataManagement.DataProviders
             return new PlayerData()
             {
                 WalletData = InitWalletData(),
-                SessionsResultsData = InitSessionsResultsData()
+                SessionsResultsData = InitSessionsResultsData(),
+                CompletedLevels = new()
             };
         }
 

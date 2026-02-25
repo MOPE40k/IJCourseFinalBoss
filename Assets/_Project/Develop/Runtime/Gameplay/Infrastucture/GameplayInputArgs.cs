@@ -7,8 +7,11 @@ namespace Runtime.Gameplay.Infrastucture
     {
         // References
         public ISymbolsSetConfig CharsConfig { get; private set; } = null;
-
-        public GameplayInputArgs(ISymbolsSetConfig charsConfig)
-            => CharsConfig = charsConfig;
+        public int LevelNumber = 0;
+        public GameplayInputArgs(ISymbolsSetConfig charsConfig, int levelNumber = 0)
+        {
+            CharsConfig = charsConfig;
+            LevelNumber = levelNumber;
+        }
     }
 }
