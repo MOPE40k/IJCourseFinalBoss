@@ -8,7 +8,7 @@ using Utils.SceneManagement;
 using Utils.LoadingScreen;
 using Runtime.Meta.Features.Wallet;
 using System.Collections.Generic;
-using Utils.Reactive;
+using Runtime.Utils.Reactive;
 using Runtime.Utils.DataManagement;
 using Utils.DataManagement.KeyStorage;
 using Utils.DataManagement.Serializers;

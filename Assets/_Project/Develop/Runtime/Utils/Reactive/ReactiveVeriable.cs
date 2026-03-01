@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Utils.Reactive
+namespace Runtime.Utils.Reactive
 {
     public class ReactiveVeriable<T> : IReadOnlyVeriable<T> where T : IEquatable<T>
     {

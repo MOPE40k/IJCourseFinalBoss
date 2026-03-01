@@ -1,5 +1,8 @@
 using System.Collections;
 using Infrastructure.DI;
+using Runtime.Configs.Gameplay.Gamemodes;
+using Runtime.Gameplay.Infrastucture;
+using Runtime.Utils.ConfigsManagement;
 using Runtime.Utils.DataManagement.DataProviders;
 using UnityEngine;
 using Utils.ConfigsManagement;
@@ -56,7 +59,10 @@ namespace Infrastracture.EntryPoint
 
             loadingScreen.Hide();
 
-            yield return sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu);
+            // yield return sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu);
+            yield return sceneSwitcherService.ProcessSwitchTo(
+                Scenes.Gameplay,
+                new GameplayInputArgs(container.Resolve<ConfigsProviderService>().GetConfig<LettersSetConfig>(), 1)); // TEMP
         }
     }
 }

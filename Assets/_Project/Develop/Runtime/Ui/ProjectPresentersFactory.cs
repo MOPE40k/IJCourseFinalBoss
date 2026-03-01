@@ -14,7 +14,7 @@ using Runtime.Ui.TextField;
 using Runtime.Ui.Wallet;
 using Utils.ConfigsManagement;
 using Utils.CoroutinesManagement;
-using Utils.Reactive;
+using Runtime.Utils.Reactive;
 using Utils.SceneManagement;
 
 namespace Runtime.Ui

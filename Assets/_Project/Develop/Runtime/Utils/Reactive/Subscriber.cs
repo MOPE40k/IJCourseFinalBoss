@@ -1,6 +1,6 @@
 using System;
 
-namespace Utils.Reactive
+namespace Runtime.Utils.Reactive
 {
     public class Subscriber<T, K> : IDisposable
     {
