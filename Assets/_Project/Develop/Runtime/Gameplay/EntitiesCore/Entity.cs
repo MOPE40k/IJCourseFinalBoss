@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Runtime.Gameplay.EntitiesCore.Systems;
+using Runtime.Gameplay.EntitiesCore.Features;
 
 namespace Runtime.Gameplay.EntitiesCore
 {

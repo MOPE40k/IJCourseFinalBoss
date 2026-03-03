@@ -1,8 +1,8 @@
 using UnityEngine;
 using Infrastructure.DI;
 using Runtime.Utils.Reactive;
-using Runtime.Gameplay.EntitiesCore.Systems.MovementFeatures;
 using Runtime.Gameplay.EntitiesCore.Mono;
+using Runtime.Gameplay.Features.MovementFeatures;
 
 namespace Runtime.Gameplay.EntitiesCore
 {
