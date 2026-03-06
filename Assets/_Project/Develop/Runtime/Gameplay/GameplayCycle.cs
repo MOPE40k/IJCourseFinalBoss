@@ -5,7 +5,7 @@ using Runtime.Utils.SceneManagement;
 using UnityEngine;
 using Utils.CoroutinesManagement;
 using Utils.InputManagement;
-using Utils.Reactive;
+using Runtime.Utils.Reactive;
 using Utils.SceneManagement;
 
 namespace Runtime.Gameplay

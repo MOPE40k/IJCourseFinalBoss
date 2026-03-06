@@ -3,7 +3,7 @@ using Runtime.Configs.Meta.SessionResult;
 using Runtime.Meta.Features.Sessions;
 using Runtime.Ui.CommonViews;
 using Runtime.Ui.Core;
-using Utils.Reactive;
+using Runtime.Utils.Reactive;
 
 namespace Runtime.Ui.SessionsResults
 {

@@ -3,7 +3,7 @@ using Runtime.Configs.Meta.Wallet;
 using Runtime.Meta.Features.Wallet;
 using Runtime.Ui.CommonViews;
 using Runtime.Ui.Core;
-using Utils.Reactive;
+using Runtime.Utils.Reactive;
 
 namespace Runtime.Ui.Wallet
 {

@@ -10,6 +10,8 @@ using Utils.SceneManagement;
 using Runtime.Ui.Gameplay;
 using Runtime.Ui.Core;
 using Runtime.Ui;
+using Runtime.Gameplay.EntitiesCore;
+using Runtime.Gameplay.EntitiesCore.Mono;
 
 namespace Runtime.Gameplay.Infrastucture
 {
@@ -22,15 +24,30 @@ namespace Runtime.Gameplay.Infrastucture
         {
             _inputArgs = inputArgs;
 
-            container.RegisterAsSingle(CreateGameplayUiRoot).NonLazy();
-            container.RegisterAsSingle(CreateGameplayPresentersFactory);
-            container.RegisterAsSingle(CreateGameplayScreenPresenter).NonLazy();
-            container.RegisterAsSingle(CreateGameplayPopupService);
-            container.RegisterAsSingle(CreateSequanceGenerationService);
-            container.RegisterAsSingle(CreatePhraseCompareService);
-            container.RegisterAsSingle(CreateGameplayCycle);
-            container.RegisterAsSingle(CreateGameResultService);
+            container.RegisterAsSingle(CreateEntitiesFactory);
+            container.RegisterAsSingle(CreateEntitiesLifeContext);
+            container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
+
+            // container.RegisterAsSingle(CreateGameplayUiRoot).NonLazy();
+            // container.RegisterAsSingle(CreateGameplayPresentersFactory);
+            // container.RegisterAsSingle(CreateGameplayScreenPresenter).NonLazy();
+            // container.RegisterAsSingle(CreateGameplayPopupService);
+            // container.RegisterAsSingle(CreateSequanceGenerationService);
+            // container.RegisterAsSingle(CreatePhraseCompareService);
+            // container.RegisterAsSingle(CreateGameplayCycle);
+            // container.RegisterAsSingle(CreateGameResultService);
         }
+
+        private static EntitiesFactory CreateEntitiesFactory(DIContainer container)
+            => new EntitiesFactory(container);
+
+        private static EntitiesLifeContext CreateEntitiesLifeContext(DIContainer container)
+            => new EntitiesLifeContext();
+
+        private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer container)
+            => new MonoEntitiesFactory(
+                container.Resolve<ResourcesAssetsLoader>(),
+                container.Resolve<EntitiesLifeContext>());
 
         private static GameplayUiRoot CreateGameplayUiRoot(DIContainer container)
         {
