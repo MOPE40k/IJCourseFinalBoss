@@ -10,7 +10,7 @@ namespace Runtime.Ui.Wallet
     public class CurrencyPresenter : IPresenter
     {
         // References
-        private readonly IReadOnlyVeriable<int> _currency = null;
+        private readonly IReadOnlyVariable<int> _currency = null;
         private readonly CurrencyTypes _currencyType = CurrencyTypes.Gold;
         private readonly CurrencyIconsConfig _config = null;
         private readonly IconTextView _view = null;
@@ -20,7 +20,7 @@ namespace Runtime.Ui.Wallet
         private IDisposable _disposable = null;
 
         public CurrencyPresenter(
-            IReadOnlyVeriable<int> currency,
+            IReadOnlyVariable<int> currency,
             CurrencyTypes currencyType,
             CurrencyIconsConfig config,
             IconTextView view)

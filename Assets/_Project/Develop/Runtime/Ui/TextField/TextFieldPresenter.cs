@@ -8,7 +8,7 @@ namespace Runtime.Ui.TextField
     public class TextFieldPresenter : IPresenter
     {
         // References
-        private readonly IReadOnlyVeriable<string> _text = null;
+        private readonly IReadOnlyVariable<string> _text = null;
         private readonly TextView _view = null;
 
         // Runtime
@@ -16,7 +16,7 @@ namespace Runtime.Ui.TextField
         private IDisposable _disposable = null;
 
         public TextFieldPresenter(
-            IReadOnlyVeriable<string> text,
+            IReadOnlyVariable<string> text,
             TextView view)
         {
             _text = text;

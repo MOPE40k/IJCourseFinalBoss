@@ -6,19 +6,13 @@ namespace Runtime.Gameplay
 {
     public class TestGameplay : MonoBehaviour
     {
-        [Header("References:")]
-        [SerializeField] private Transform _rigidbodySpawnPosition = null;
-        [SerializeField] private Transform _characterControllerSpawnPosition = null;
-        [SerializeField] private Transform _transformSpawnPosition = null;
-
         // References
         private DIContainer _container = null;
         private EntitiesFactory _entitiesFactory = null;
 
         // Runtime
-        private Entity _rigidbodyMoveEntity = null;
-        private Entity _characterControllerMoveEntity = null;
-        private Entity _transformMoveEntity = null;
+        private Entity _heroEntity = null;
+        private Entity _instantMoveEntity = null;
 
         private bool _isRunning = false;
 
@@ -30,9 +24,10 @@ namespace Runtime.Gameplay
 
             _entitiesFactory = _container.Resolve<EntitiesFactory>();
 
-            _rigidbodyMoveEntity = _entitiesFactory.CreateRigidbodyMoveEntity(_rigidbodySpawnPosition.position);
-            _characterControllerMoveEntity = _entitiesFactory.CreateCharacterControllerMoveEntity(_characterControllerSpawnPosition.position);
-            _transformMoveEntity = _entitiesFactory.CreateTransformMoveEntity(_transformSpawnPosition.position);
+            _heroEntity = _entitiesFactory.CreateHeroEntity(Vector3.zero);
+
+            _instantMoveEntity = _entitiesFactory.CreateInstantMoveEntity(
+                new Vector3(Random.Range(1f, 5f), 0f, Random.Range(1f, 5f)));
         }
 
         public void Run()
@@ -43,11 +38,18 @@ namespace Runtime.Gameplay
             if (_isRunning == false)
                 return;
 
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _instantMoveEntity.StartInstantMoveRequest.Invoke();
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+                _heroEntity.StartAttackRequest.Invoke();
+
             _inputDirection = new(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
 
-            _rigidbodyMoveEntity.MoveDirection.Value = _inputDirection;
-            _characterControllerMoveEntity.MoveDirection.Value = _inputDirection;
-            _transformMoveEntity.MoveDirection.Value = _inputDirection;
+            _heroEntity.MoveDirection.Value = _inputDirection;
+            _heroEntity.RotationDirection.Value = _inputDirection;
         }
     }
 }

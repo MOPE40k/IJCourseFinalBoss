@@ -28,7 +28,7 @@ namespace Runtime.Ui
             => _container = container;
 
         public CurrencyPresenter CreateCurrencyPresenter(
-            IReadOnlyVeriable<int> currency,
+            IReadOnlyVariable<int> currency,
             CurrencyTypes currencyType,
             IconTextView view)
         {
@@ -69,7 +69,7 @@ namespace Runtime.Ui
                 _container.Resolve<ICoroutinePerformer>());
 
         public ResultPresenter CreateResultPresenter(
-            IReadOnlyVeriable<int> result,
+            IReadOnlyVariable<int> result,
             SessionEndConditionTypes sessionEndConditionType,
             IconTextView view)
         {
@@ -88,7 +88,7 @@ namespace Runtime.Ui
                 view);
 
         public TextFieldPresenter CreateTextFieldPresenter(
-            IReadOnlyVeriable<string> text,
+            IReadOnlyVariable<string> text,
             TextView view)
         {
             return new TextFieldPresenter(text, view);
