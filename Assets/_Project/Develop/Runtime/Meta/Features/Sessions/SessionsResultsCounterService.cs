@@ -9,13 +9,13 @@ namespace Runtime.Meta.Features.Sessions
     public class SessionsResultsCounterService : IDataReader<PlayerData>, IDataWriter<PlayerData>
     {
         // Runtime
-        private readonly Dictionary<SessionEndConditionTypes, ReactiveVeriable<int>> _sessionsResults = null;
+        private readonly Dictionary<SessionEndConditionTypes, ReactiveVariable<int>> _sessionsResults = null;
 
         public SessionsResultsCounterService(
-            Dictionary<SessionEndConditionTypes, ReactiveVeriable<int>> sessionsResults,
+            Dictionary<SessionEndConditionTypes, ReactiveVariable<int>> sessionsResults,
             PlayerDataProvider playerDataProvider)
         {
-            _sessionsResults = new Dictionary<SessionEndConditionTypes, ReactiveVeriable<int>>(sessionsResults);
+            _sessionsResults = new Dictionary<SessionEndConditionTypes, ReactiveVariable<int>>(sessionsResults);
 
             playerDataProvider.RegisterReader(this);
             playerDataProvider.RegisterWriter(this);
@@ -24,7 +24,7 @@ namespace Runtime.Meta.Features.Sessions
         // Runtime
         public SessionEndConditionTypes[] AvailableSessionEndConditions => _sessionsResults.Keys.ToArray();
 
-        public IReadOnlyVeriable<int> GetCondition(SessionEndConditionTypes type)
+        public IReadOnlyVariable<int> GetCondition(SessionEndConditionTypes type)
             => _sessionsResults[type];
 
         public void Add(SessionEndConditionTypes type)
@@ -32,7 +32,7 @@ namespace Runtime.Meta.Features.Sessions
 
         public void Reset()
         {
-            foreach (KeyValuePair<SessionEndConditionTypes, ReactiveVeriable<int>> pair in _sessionsResults)
+            foreach (KeyValuePair<SessionEndConditionTypes, ReactiveVariable<int>> pair in _sessionsResults)
                 pair.Value.Value = 0;
         }
 
@@ -42,12 +42,12 @@ namespace Runtime.Meta.Features.Sessions
                 if (_sessionsResults.ContainsKey(sessionResult.Key))
                     _sessionsResults[sessionResult.Key].Value = sessionResult.Value;
                 else
-                    _sessionsResults.Add(sessionResult.Key, new ReactiveVeriable<int>(sessionResult.Value));
+                    _sessionsResults.Add(sessionResult.Key, new ReactiveVariable<int>(sessionResult.Value));
         }
 
         public void WriteTo(PlayerData data)
         {
-            foreach (KeyValuePair<SessionEndConditionTypes, ReactiveVeriable<int>> sessionResult in _sessionsResults)
+            foreach (KeyValuePair<SessionEndConditionTypes, ReactiveVariable<int>> sessionResult in _sessionsResults)
                 if (data.SessionsResultsData.ContainsKey(sessionResult.Key))
                     data.SessionsResultsData[sessionResult.Key] = sessionResult.Value.Value;
                 else

@@ -27,6 +27,7 @@ namespace Runtime.Gameplay.Infrastucture
             container.RegisterAsSingle(CreateEntitiesFactory);
             container.RegisterAsSingle(CreateEntitiesLifeContext);
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
+            container.RegisterAsSingle(CreateCollidersRegistryService);
 
             // container.RegisterAsSingle(CreateGameplayUiRoot).NonLazy();
             // container.RegisterAsSingle(CreateGameplayPresentersFactory);
@@ -47,7 +48,11 @@ namespace Runtime.Gameplay.Infrastucture
         private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer container)
             => new MonoEntitiesFactory(
                 container.Resolve<ResourcesAssetsLoader>(),
-                container.Resolve<EntitiesLifeContext>());
+                container.Resolve<EntitiesLifeContext>(),
+                container.Resolve<CollidersRegistryService>());
+
+        private static CollidersRegistryService CreateCollidersRegistryService(DIContainer container)
+            => new CollidersRegistryService();
 
         private static GameplayUiRoot CreateGameplayUiRoot(DIContainer container)
         {

@@ -6,6 +6,7 @@ namespace Runtime.Gameplay.EntitiesCore
 {
     public partial class Entity : IDisposable
     {
+        // Runtime
         private readonly Dictionary<Type, IEntityComponent> _components = new();
 
         private readonly List<IEntitySystem> _systems = new();

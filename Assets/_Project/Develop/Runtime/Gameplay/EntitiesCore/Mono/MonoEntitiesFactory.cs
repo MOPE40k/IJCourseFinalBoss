@@ -11,16 +11,19 @@ namespace Runtime.Gameplay.EntitiesCore.Mono
         // References
         private readonly ResourcesAssetsLoader _assetsLoader = null;
         private readonly EntitiesLifeContext _entitiesLifeContext = null;
+        private readonly CollidersRegistryService _collidersRegistryService = null;
 
         // Runtime
         private readonly Dictionary<Entity, MonoEntity> _entityToMono = new();
 
         public MonoEntitiesFactory(
             ResourcesAssetsLoader assetsLoader,
-            EntitiesLifeContext entitiesLifeContext)
+            EntitiesLifeContext entitiesLifeContext,
+            CollidersRegistryService collidersRegistryService)
         {
             _assetsLoader = assetsLoader;
             _entitiesLifeContext = entitiesLifeContext;
+            _collidersRegistryService = collidersRegistryService;
         }
 
         public MonoEntity Create(Entity entity, Vector3 position, string path)
@@ -29,7 +32,9 @@ namespace Runtime.Gameplay.EntitiesCore.Mono
 
             MonoEntity viewInstance = GameObject.Instantiate(prefab, position, Quaternion.identity, null);
 
-            viewInstance.Setup(entity);
+            viewInstance.Init(_collidersRegistryService);
+
+            viewInstance.Link(entity);
 
             _entityToMono.Add(entity, viewInstance);
 

@@ -21,7 +21,7 @@ namespace Runtime.Gameplay
         private readonly GameplayInputArgs _inputArgs = null;
 
         // Runtime
-        private ReactiveVeriable<string> _currentInput = new(string.Empty);
+        private ReactiveVariable<string> _currentInput = new(string.Empty);
         private bool _isRunning = false;
         private string _nextSceneName = string.Empty;
 
@@ -42,7 +42,7 @@ namespace Runtime.Gameplay
         }
 
         // Runtime
-        public IReadOnlyVeriable<string> CurrentInput => _currentInput;
+        public IReadOnlyVariable<string> CurrentInput => _currentInput;
 
         public void Run()
         {

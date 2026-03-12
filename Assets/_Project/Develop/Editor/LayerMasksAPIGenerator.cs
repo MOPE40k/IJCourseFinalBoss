@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace Editor
 {
-    public class LayerMasksApiGenerator
+    public class LayerMasksAPIGenerator
     {
         // Consts
         private const string GenerateClassName = "UnityLayers";
@@ -22,20 +22,20 @@ namespace Editor
             sb.AppendLine($"using {typeof(LayerMask).Namespace};");
             sb.AppendLine();
 
-            sb.AppendLine($"namespace {typeof(LayerMasksApiGenerator).Namespace}");
+            sb.AppendLine($"namespace {typeof(LayerMasksAPIGenerator).Namespace}");
             sb.AppendLine("{");
 
             sb.AppendLine($"\tpublic static class {GenerateClassName}");
             sb.AppendLine("\t{");
 
-            string[] layersMasks = UnityEditorInternal.InternalEditorUtility.layers;
+            string[] layerNames = UnityEditorInternal.InternalEditorUtility.layers;
 
-            foreach (string layerName in layersMasks)
+            foreach (string layerName in layerNames)
                 sb.AppendLine($"\t\tpublic static readonly int Layer{RemoveSpaceFrom(layerName)} = LayerMask.NameToLayer(\"{layerName}\");");
 
             sb.AppendLine();
 
-            foreach (string layerName in layersMasks)
+            foreach (string layerName in layerNames)
                 sb.AppendLine($"\t\tpublic static readonly int LayerMask{RemoveSpaceFrom(layerName)} = 1 << Layer{RemoveSpaceFrom(layerName)};");
 
             sb.AppendLine("\t}");

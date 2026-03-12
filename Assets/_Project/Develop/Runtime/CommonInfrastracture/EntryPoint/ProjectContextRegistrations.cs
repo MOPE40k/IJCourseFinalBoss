@@ -103,10 +103,10 @@ namespace Infrastracture.EntryPoint
 
         private static WalletService CreateWalletService(DIContainer container)
         {
-            Dictionary<CurrencyTypes, ReactiveVeriable<int>> currencies = new();
+            Dictionary<CurrencyTypes, ReactiveVariable<int>> currencies = new();
 
             foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
-                currencies[type] = new ReactiveVeriable<int>();
+                currencies[type] = new ReactiveVariable<int>();
 
             return new WalletService(
                 currencies,
@@ -115,10 +115,10 @@ namespace Infrastracture.EntryPoint
 
         private static SessionsResultsCounterService CreateSessionsResultsCounterService(DIContainer container)
         {
-            Dictionary<SessionEndConditionTypes, ReactiveVeriable<int>> sessionsResults = new();
+            Dictionary<SessionEndConditionTypes, ReactiveVariable<int>> sessionsResults = new();
 
             foreach (SessionEndConditionTypes type in Enum.GetValues(typeof(SessionEndConditionTypes)))
-                sessionsResults[type] = new ReactiveVeriable<int>();
+                sessionsResults[type] = new ReactiveVariable<int>();
 
             return new SessionsResultsCounterService(
                 sessionsResults,

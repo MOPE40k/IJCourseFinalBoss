@@ -10,7 +10,7 @@ namespace Runtime.Ui.SessionsResults
     public class ResultPresenter : IPresenter
     {
         // References
-        private readonly IReadOnlyVeriable<int> _result = null;
+        private readonly IReadOnlyVariable<int> _result = null;
         private readonly SessionEndConditionTypes _resultType = SessionEndConditionTypes.Win;
         private readonly SessionResultIconConfig _config = null;
         private readonly IconTextView _view = null;
@@ -20,7 +20,7 @@ namespace Runtime.Ui.SessionsResults
         private IDisposable _disposable = null;
 
         public ResultPresenter(
-            IReadOnlyVeriable<int> result,
+            IReadOnlyVariable<int> result,
             SessionEndConditionTypes resultType,
             SessionResultIconConfig config,
             IconTextView view)

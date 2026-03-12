@@ -10,13 +10,13 @@ namespace Runtime.Meta.Features.Wallet
     public class WalletService : IDataReader<PlayerData>, IDataWriter<PlayerData>
     {
         // Runtime
-        private readonly Dictionary<CurrencyTypes, ReactiveVeriable<int>> _currencies = null;
+        private readonly Dictionary<CurrencyTypes, ReactiveVariable<int>> _currencies = null;
 
         public WalletService(
-            Dictionary<CurrencyTypes, ReactiveVeriable<int>> currencies,
+            Dictionary<CurrencyTypes, ReactiveVariable<int>> currencies,
             PlayerDataProvider playerDataProvider)
         {
-            _currencies = new Dictionary<CurrencyTypes, ReactiveVeriable<int>>(currencies);
+            _currencies = new Dictionary<CurrencyTypes, ReactiveVariable<int>>(currencies);
 
             playerDataProvider.RegisterReader(this);
             playerDataProvider.RegisterWriter(this);
@@ -24,7 +24,7 @@ namespace Runtime.Meta.Features.Wallet
 
         public CurrencyTypes[] AvailableCurrencies => _currencies.Keys.ToArray();
 
-        public IReadOnlyVeriable<int> GetCurrency(CurrencyTypes type)
+        public IReadOnlyVariable<int> GetCurrency(CurrencyTypes type)
             => _currencies[type];
 
         public bool Enough(CurrencyTypes type, int amount)
@@ -60,12 +60,12 @@ namespace Runtime.Meta.Features.Wallet
                 if (_currencies.ContainsKey(currency.Key))
                     _currencies[currency.Key].Value = currency.Value;
                 else
-                    _currencies.Add(currency.Key, new ReactiveVeriable<int>(currency.Value));
+                    _currencies.Add(currency.Key, new ReactiveVariable<int>(currency.Value));
         }
 
         public void WriteTo(PlayerData data)
         {
-            foreach (KeyValuePair<CurrencyTypes, ReactiveVeriable<int>> currency in _currencies)
+            foreach (KeyValuePair<CurrencyTypes, ReactiveVariable<int>> currency in _currencies)
                 if (data.WalletData.ContainsKey(currency.Key))
                     data.WalletData[currency.Key] = currency.Value.Value;
                 else

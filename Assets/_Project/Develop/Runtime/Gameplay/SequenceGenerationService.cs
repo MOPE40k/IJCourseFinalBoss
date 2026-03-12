@@ -6,8 +6,8 @@ namespace Runtime.Gameplay
     public class SequenceGenerationService
     {
         // Runtime
-        private ReactiveVeriable<string> _codePhrase = new(string.Empty);
-        public IReadOnlyVeriable<string> CodePhrase => _codePhrase;
+        private ReactiveVariable<string> _codePhrase = new(string.Empty);
+        public IReadOnlyVariable<string> CodePhrase => _codePhrase;
 
         public string GetRandomSequence(string chars, int length)
         {
