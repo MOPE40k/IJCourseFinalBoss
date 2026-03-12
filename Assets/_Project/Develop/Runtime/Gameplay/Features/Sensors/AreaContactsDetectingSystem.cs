@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Runtime.Gameplay.EntitiesCore;
 using Runtime.Gameplay.EntitiesCore.Systems;
 using Runtime.Utils;
@@ -43,31 +42,7 @@ namespace Runtime.Gameplay.Features.Sensors
                 _mask,
                 QueryTriggerInteraction.Ignore);
 
-            RemoveSelfFromContacts();
-        }
-
-        private void RemoveSelfFromContacts()
-        {
-            int indexToRemove = -1;
-
-            for (int i = 0; i < _areaContacts.Count; i++)
-            {
-                if (_areaContacts.Items[i] == _collider)
-                {
-                    indexToRemove = i;
-
-                    break;
-                }
-            }
-
-            if (indexToRemove >= 0)
-            {
-                _areaContacts.Items[indexToRemove] = _areaContacts.Items[_areaContacts.Count - 1];
-
-                _areaContacts.Count--;
-
-                _areaContacts.Items[_areaContacts.Count] = null;
-            }
+            RemoveElementFromBuffer<Collider>.Remove(_collider, _areaContacts);
         }
     }
 }

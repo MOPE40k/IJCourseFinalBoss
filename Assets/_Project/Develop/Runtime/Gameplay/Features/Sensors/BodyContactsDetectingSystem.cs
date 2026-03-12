@@ -28,31 +28,7 @@ namespace Runtime.Gameplay.Features.Sensors
                 _mask,
                 QueryTriggerInteraction.Ignore);
 
-            RemoveSelfFromContacts();
-        }
-
-        private void RemoveSelfFromContacts()
-        {
-            int indexToRemove = -1;
-
-            for (int i = 0; i < _contacts.Count; i++)
-            {
-                if (_contacts.Items[i] == _collider)
-                {
-                    indexToRemove = i;
-
-                    break;
-                }
-            }
-
-            if (indexToRemove >= 0)
-            {
-                _contacts.Items[indexToRemove] = _contacts.Items[_contacts.Count - 1];
-
-                _contacts.Count--;
-
-                _contacts.Items[_contacts.Count] = null;
-            }
+            RemoveElementFromBuffer<Collider>.Remove(_collider, _contacts);
         }
     }
 }
