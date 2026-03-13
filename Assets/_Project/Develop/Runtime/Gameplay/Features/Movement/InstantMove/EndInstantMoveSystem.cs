@@ -1,10 +1,8 @@
 using System;
 using Runtime.Gameplay.EntitiesCore;
 using Runtime.Gameplay.EntitiesCore.Systems;
-using Runtime.Utils.Conditions;
 using Runtime.Utils.Reactive;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Runtime.Gameplay.Features.Movement.InstantMove
 {
@@ -12,10 +10,9 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
     {
         // References
         private Rigidbody _rigidbody = null;
-        private ReactiveVariable<Vector3> _startPosition = null;
-        private ReactiveVariable<float> _moveRadius = null;
         private ReactiveVariable<float> _instantMoveProcessInitialTime = null;
         private ReactiveVariable<float> _instantMoveProcessCurrentTime = null;
+        private ReactiveVariable<Vector3> _instantMoveDestinationPosition = null;
         private ReactiveVariable<bool> _inInstantMoveProcess = null;
         private ReactiveEvent _endInstantMoveEvent = null;
 
@@ -25,10 +22,9 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
         public void OnInit(Entity entity)
         {
             _rigidbody = entity.Rigidbody;
-            _startPosition = entity.StartPosition;
-            _moveRadius = entity.MoveRadius;
             _instantMoveProcessInitialTime = entity.InstantMoveProcessInitialTime;
             _instantMoveProcessCurrentTime = entity.InstantMoveProcessCurrentTime;
+            _instantMoveDestinationPosition = entity.InstantMoveDestinationPosition;
             _inInstantMoveProcess = entity.InInstantMoveProcess;
             _endInstantMoveEvent = entity.EndInstantMoveEvent;
 
@@ -39,7 +35,7 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
         {
             if (TimeIsOver(currentTime))
             {
-                _rigidbody.position = GetRandomPositionInRadius();
+                _rigidbody.position = _instantMoveDestinationPosition.Value;
 
                 _inInstantMoveProcess.Value = false;
 
@@ -52,11 +48,5 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
 
         public void OnDispose()
             => _timerChanged.Dispose();
-
-        private Vector3 GetRandomPositionInRadius()
-            => new Vector3(
-                _startPosition.Value.x + Random.Range(0f, _moveRadius.Value),
-                0f,
-                _startPosition.Value.z + Random.Range(0f, _moveRadius.Value));
     }
 }

@@ -19,6 +19,7 @@ using Runtime.Ui;
 using Runtime.Ui.Core;
 using Runtime.Meta.Features.LevelProgression;
 using Runtime.Meta.Features.Stats;
+using Runtime.Utils.Timer;
 
 namespace Infrastracture.EntryPoint
 {
@@ -46,6 +47,7 @@ namespace Infrastracture.EntryPoint
             container.RegisterAsSingle(CreateProjectPresentersFactory);
             container.RegisterAsSingle(CreateViewsFactory);
             container.RegisterAsSingle(CreateResetStatsService);
+            container.RegisterAsSingle(CreateTimerServiceFactory);
         }
 
         private static ResetStatsService CreateResetStatsService(DIContainer container)
@@ -157,5 +159,9 @@ namespace Infrastracture.EntryPoint
             => new ViewsFactory(
                 container.Resolve<ResourcesAssetsLoader>()
             );
+
+        private static TimerServiceFactory CreateTimerServiceFactory(DIContainer container)
+            => new TimerServiceFactory(container);
+
     }
 }

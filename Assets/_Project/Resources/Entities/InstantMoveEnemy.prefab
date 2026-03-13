@@ -178,7 +178,7 @@ PrefabInstance:
     - target: {fileID: 45992728643579428, guid: 8c0f5a9517883476bb748ccf23a865e1,
         type: 3}
       propertyPath: m_Name
-      value: Teleporting
+      value: InstantMoveEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 5819445786284896503, guid: 8c0f5a9517883476bb748ccf23a865e1,
         type: 3}

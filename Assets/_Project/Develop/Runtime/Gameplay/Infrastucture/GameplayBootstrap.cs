@@ -3,6 +3,7 @@ using System.Collections;
 using Infrastracture;
 using Infrastructure.DI;
 using Runtime.Gameplay.EntitiesCore;
+using Runtime.Gameplay.Features.Ai;
 using Runtime.Utils.SceneManagement;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Runtime.Gameplay.Infrastucture
         [Header("Test:")]
         [SerializeField] private TestGameplay _testGameplay = null; // TEMP
         private EntitiesLifeContext _entitiesLifeContext = null;
+        private AiBrainsContext _aiBrainsContext = null;
 
         // References
         private DIContainer _container = null;
@@ -36,6 +38,8 @@ namespace Runtime.Gameplay.Infrastucture
 
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
 
+            _aiBrainsContext = _container.Resolve<AiBrainsContext>();
+
             //_gameplayCycle = _container.Resolve<GameplayCycle>();
 
             yield break;
@@ -50,7 +54,11 @@ namespace Runtime.Gameplay.Infrastucture
 
         private void Update()
         {
-            _entitiesLifeContext?.UpdateTick(Time.deltaTime);
+            float dt = Time.deltaTime;
+
+            _aiBrainsContext?.UpdateTick(dt);
+
+            _entitiesLifeContext?.UpdateTick(dt);
 
             //_gameplayCycle?.UpdateTick(Time.deltaTime);
         }

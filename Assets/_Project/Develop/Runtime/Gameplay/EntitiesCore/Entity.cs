@@ -10,25 +10,24 @@ namespace Runtime.Gameplay.EntitiesCore
         private readonly Dictionary<Type, IEntityComponent> _components = new();
 
         private readonly List<IEntitySystem> _systems = new();
-
         private readonly List<IInitializableSystem> _initializables = new();
         private readonly List<IUpdatableSystem> _updatables = new();
         private readonly List<IFixedUpdatableSystem> _fixedUpdatables = new();
         private readonly List<IDisposableSystem> _disposables = new();
 
-        private bool _isInit = false;
+        public bool IsInit { get; private set; } = false;
 
         public void Init()
         {
             foreach (IInitializableSystem initializable in _initializables)
                 initializable.OnInit(this);
 
-            _isInit = true;
+            IsInit = true;
         }
 
         public void UpdateTick(float deltaTime)
         {
-            if (_isInit == false)
+            if (IsInit == false)
                 return;
 
             foreach (IUpdatableSystem updatable in _updatables)
@@ -37,7 +36,7 @@ namespace Runtime.Gameplay.EntitiesCore
 
         public void FixedUpdateTick(float fixedDeltaTime)
         {
-            if (_isInit == false)
+            if (IsInit == false)
                 return;
 
             foreach (IFixedUpdatableSystem fixedUpdatable in _fixedUpdatables)
@@ -49,7 +48,7 @@ namespace Runtime.Gameplay.EntitiesCore
             foreach (IDisposableSystem disposable in _disposables)
                 disposable.OnDispose();
 
-            _isInit = false;
+            IsInit = false;
         }
 
         public bool HasComponent<TComponent>() where TComponent : class, IEntityComponent
@@ -95,7 +94,7 @@ namespace Runtime.Gameplay.EntitiesCore
             {
                 _initializables.Add(initializable);
 
-                if (_isInit)
+                if (IsInit)
                     initializable.OnInit(this);
             }
 

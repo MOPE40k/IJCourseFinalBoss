@@ -39,6 +39,11 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
         public ReactiveVariable<Vector3> Value = null;
     }
 
+    public class InstantMoveDestinationPosition : IEntityComponent
+    {
+        public ReactiveVariable<Vector3> Value = null;
+    }
+
     public class MoveRadius : IEntityComponent
     {
         public ReactiveVariable<float> Value = null;

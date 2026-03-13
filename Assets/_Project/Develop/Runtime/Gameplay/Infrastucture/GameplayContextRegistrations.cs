@@ -12,6 +12,8 @@ using Runtime.Ui.Core;
 using Runtime.Ui;
 using Runtime.Gameplay.EntitiesCore;
 using Runtime.Gameplay.EntitiesCore.Mono;
+using Runtime.Gameplay.Features.Ai;
+using Runtime.Gameplay.Features.InputFeature;
 
 namespace Runtime.Gameplay.Infrastucture
 {
@@ -28,6 +30,9 @@ namespace Runtime.Gameplay.Infrastucture
             container.RegisterAsSingle(CreateEntitiesLifeContext);
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
             container.RegisterAsSingle(CreateCollidersRegistryService);
+            container.RegisterAsSingle(CreateBrainsFactory);
+            container.RegisterAsSingle(CreateAiBrainsContext);
+            container.RegisterAsSingle<IInputService>(CreateDesktopInput);
 
             // container.RegisterAsSingle(CreateGameplayUiRoot).NonLazy();
             // container.RegisterAsSingle(CreateGameplayPresentersFactory);
@@ -53,6 +58,15 @@ namespace Runtime.Gameplay.Infrastucture
 
         private static CollidersRegistryService CreateCollidersRegistryService(DIContainer container)
             => new CollidersRegistryService();
+
+        private static BrainsFactory CreateBrainsFactory(DIContainer container)
+            => new BrainsFactory(container);
+
+        private static AiBrainsContext CreateAiBrainsContext(DIContainer container)
+            => new AiBrainsContext();
+
+        private static DesktopInput CreateDesktopInput(DIContainer container)
+            => new DesktopInput();
 
         private static GameplayUiRoot CreateGameplayUiRoot(DIContainer container)
         {

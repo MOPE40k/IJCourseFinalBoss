@@ -44,7 +44,7 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
             }
 
             _currentStamina.Value -= _instantMoveStaminaCost.Value;
-            Debug.Log($"STAMINA: {_currentStamina.Value}");
+            Debug.Log($"CURRENT STAMINA: {_currentStamina.Value}");
 
             _inInstantMoveProcess.Value = true;
 

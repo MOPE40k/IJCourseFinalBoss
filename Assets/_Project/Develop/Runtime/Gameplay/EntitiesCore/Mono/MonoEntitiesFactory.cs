@@ -42,9 +42,7 @@ namespace Runtime.Gameplay.EntitiesCore.Mono
         }
 
         public void Init()
-        {
-            _entitiesLifeContext.Released += OnEntityReleased;
-        }
+            => _entitiesLifeContext.Released += OnEntityReleased;
 
         public void Dispose()
         {
