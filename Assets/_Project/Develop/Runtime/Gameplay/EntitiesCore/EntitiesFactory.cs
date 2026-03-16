@@ -208,15 +208,13 @@ namespace Runtime.Gameplay.EntitiesCore
                 .AddInInstantMoveProcess()
                 .AddStartInstantMoveRequest()
                 .AddStartInstantMoveEvent()
-                .AddStartPosition(new ReactiveVariable<Vector3>(entity.Rigidbody.position))
-                .AddInstantMoveDestinationPosition()
-                .AddMoveRadius(new ReactiveVariable<float>(5f))
-                .AddInstantMoveProcessInitialTime(new ReactiveVariable<float>(0.1f))
-                .AddInstantMoveProcessCurrentTime()
+                .AddStartPositionBeforeInstantMove(new ReactiveVariable<Vector3>(entity.Rigidbody.position))
+                .AddEndPositionForInstantMove()
+                .AddRadiusForInstantMove(new ReactiveVariable<float>(5f))
                 .AddEndInstantMoveEvent()
                 .AddMaxStamina(new ReactiveVariable<float>(50f))
                 .AddCurrentStamina(new ReactiveVariable<float>(entity.MaxStamina.Value))
-                .AddInstantMoveStaminaCost(new ReactiveVariable<float>(15f))
+                .AddStaminaCostForInstantMove(new ReactiveVariable<float>(15f))
                 .AddRecoveryStaminaStep(new ReactiveVariable<float>(entity.MaxStamina.Value * 0.1f))
                 .AddRecoveryStaminaInitialTime(new ReactiveVariable<float>(2f))
                 .AddRecoveryStaminaCurrentTime()
@@ -241,7 +239,7 @@ namespace Runtime.Gameplay.EntitiesCore
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
                 .Add(new FuncCondition(() => entity.InInstantMoveProcess.Value == false))
-                .Add(new FuncCondition(() => entity.CurrentStamina.Value >= entity.InstantMoveStaminaCost.Value));
+                .Add(new FuncCondition(() => entity.CurrentStamina.Value >= entity.StaminaCostForInstantMove.Value));
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0f));
@@ -266,7 +264,6 @@ namespace Runtime.Gameplay.EntitiesCore
 
             entity
                 .AddSystem(new StartInstantMoveSystem())
-                .AddSystem(new InstantMoveProcessTimerSystem())
                 .AddSystem(new EndInstantMoveSystem())
                 .AddSystem(new RecoveryStaminaSystem())
                 .AddSystem(new RecoveryStaminaTimerSystem())

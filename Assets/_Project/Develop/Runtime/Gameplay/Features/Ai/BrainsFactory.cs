@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Infrastructure.DI;
 using Runtime.Gameplay.EntitiesCore;
 using Runtime.Gameplay.Features.Ai.States;
+using Runtime.Gameplay.Features.Ai.States.InstantMove;
 using Runtime.Gameplay.Features.InputFeature;
 using Runtime.Utils.Conditions;
 using Runtime.Utils.Reactive;
@@ -66,7 +67,6 @@ namespace Runtime.Gameplay.Features.Ai
         public StateMachineBrain CreateMainHeroBrain(Entity entity, ITargetSelector targetSelector)
         {
             AiStateMachine combatState = CreateAutoAttackStateMachine(entity);
-
             PlayerInputMovementState movementState = new PlayerInputMovementState(entity, _inputService);
 
             IReadOnlyVariable<Entity> currentTarget = entity.CurrentTarget;
@@ -109,10 +109,12 @@ namespace Runtime.Gameplay.Features.Ai
             return brain;
         }
 
-        public StateMachineBrain CreateMovementToTargetGhostBrain(Entity entity, ITargetSelector targetSelector)
+        public StateMachineBrain CreateInstantMovementToTargetGhostBrain(
+            Entity entity,
+            ITargetSelector targetSelector,
+            IInstantMoveEndPointProvider moveEndPointProvider)
         {
-            AiStateMachine movementState = CreateInstantMovementToPointInRadiusStateMachine(entity);
-
+            AiStateMachine movementState = CreateInstantMovementToRandomPointInRadiusStateMachine(entity, moveEndPointProvider);
             FindTargetState findTargetState = new FindTargetState(targetSelector, _entitiesLifeContext, entity);
 
             IReadOnlyVariable<Entity> currentTarget = entity.CurrentTarget;
@@ -155,9 +157,11 @@ namespace Runtime.Gameplay.Features.Ai
             return brain;
         }
 
-        public StateMachineBrain CreateInstantMovementToRandomPointInRadiusGhostBrain(Entity entity)
+        public StateMachineBrain CreateInstantMovementToRandomPointGhostBrain(
+            Entity entity,
+            IInstantMoveEndPointProvider moveEndPointProvider)
         {
-            AiStateMachine stateMachine = CreateInstantMovementToRandomPointInRadius(entity);
+            AiStateMachine stateMachine = CreateInstantMovementToRandomPointInRadiusStateMachine(entity, moveEndPointProvider);
 
             StateMachineBrain brain = new StateMachineBrain(stateMachine);
 
@@ -177,7 +181,7 @@ namespace Runtime.Gameplay.Features.Ai
             return brain;
         }
 
-        public AiStateMachine CreatePlayerInputStateMachine(Entity entity)
+        private AiStateMachine CreatePlayerInputStateMachine(Entity entity)
         {
             PlayerInputRotationState rotationState = new PlayerInputRotationState(entity, _inputService);
             PlayerInputMovementState movementState = new PlayerInputMovementState(entity, _inputService);
@@ -235,23 +239,27 @@ namespace Runtime.Gameplay.Features.Ai
             return stateMachine;
         }
 
-        private AiStateMachine CreateInstantMovementToRandomPointInRadius(Entity entity)
+        private AiStateMachine CreateInstantMovementToRandomPointInRadiusStateMachine(
+            Entity entity,
+            IInstantMoveEndPointProvider moveEndPointProvider)
         {
             List<IDisposable> disposables = new();
 
-            InstantMoveToRandomPointInRadiusState movementToRandomPointInRadiusState = new InstantMoveToRandomPointInRadiusState(entity);
+            InstantMoveToRandomPointState moveToRandomPointState
+                = new InstantMoveToRandomPointState(entity, moveEndPointProvider);
+
             EmptyState emptyState = new EmptyState();
 
             TimerService movementTimer = _timerServiceFactory.Create(1f);
             disposables.Add(movementTimer);
-            disposables.Add(movementToRandomPointInRadiusState.Entered.Subscribe(movementTimer.Restart));
+            disposables.Add(moveToRandomPointState.Entered.Subscribe(movementTimer.Restart));
 
             TimerService idleTimer = _timerServiceFactory.Create(1f);
             disposables.Add(idleTimer);
             disposables.Add(emptyState.Entered.Subscribe(idleTimer.Restart));
 
             IReadOnlyVariable<float> currentStamina = entity.CurrentStamina;
-            IReadOnlyVariable<float> instantMoveStaminaCost = entity.InstantMoveStaminaCost;
+            IReadOnlyVariable<float> instantMoveStaminaCost = entity.StaminaCostForInstantMove;
 
             ICompositeCondition movementEndedTimeCondition = new CompositeCondition()
                 .Add(new FuncCondition(() => movementTimer.IsOver));
@@ -263,50 +271,12 @@ namespace Runtime.Gameplay.Features.Ai
             AiStateMachine stateMachine = new AiStateMachine();
 
             stateMachine
-                .AddState(movementToRandomPointInRadiusState)
+                .AddState(moveToRandomPointState)
                 .AddState(emptyState);
 
             stateMachine
-                .AddTransition(emptyState, movementToRandomPointInRadiusState, idleEndedTimeCondition)
-                .AddTransition(movementToRandomPointInRadiusState, emptyState, movementEndedTimeCondition);
-
-            return stateMachine;
-        }
-
-        private AiStateMachine CreateInstantMovementToPointInRadiusStateMachine(Entity entity)
-        {
-            List<IDisposable> disposables = new();
-
-            InstantMoveToTargetInRadiusState instantMoveToTargetInRadiusState = new InstantMoveToTargetInRadiusState(entity);
-            EmptyState emptyState = new EmptyState();
-
-            TimerService movementTimer = _timerServiceFactory.Create(1f);
-            disposables.Add(movementTimer);
-            disposables.Add(instantMoveToTargetInRadiusState.Entered.Subscribe(movementTimer.Restart));
-
-            TimerService idleTimer = _timerServiceFactory.Create(1f);
-            disposables.Add(idleTimer);
-            disposables.Add(emptyState.Entered.Subscribe(idleTimer.Restart));
-
-            IReadOnlyVariable<float> currentStamina = entity.CurrentStamina;
-            IReadOnlyVariable<float> instantMoveStaminaCost = entity.InstantMoveStaminaCost;
-
-            ICompositeCondition movementEndedTimeCondition = new CompositeCondition()
-                .Add(new FuncCondition(() => movementTimer.IsOver));
-
-            ICompositeCondition idleEndedTimeCondition = new CompositeCondition()
-                .Add(new FuncCondition(() => idleTimer.IsOver))
-                .Add(new FuncCondition(() => currentStamina.Value >= instantMoveStaminaCost.Value));
-
-            AiStateMachine stateMachine = new AiStateMachine();
-
-            stateMachine
-                .AddState(instantMoveToTargetInRadiusState)
-                .AddState(emptyState);
-
-            stateMachine
-                .AddTransition(emptyState, instantMoveToTargetInRadiusState, idleEndedTimeCondition)
-                .AddTransition(instantMoveToTargetInRadiusState, emptyState, movementEndedTimeCondition);
+                .AddTransition(emptyState, moveToRandomPointState, idleEndedTimeCondition)
+                .AddTransition(moveToRandomPointState, emptyState, movementEndedTimeCondition);
 
             return stateMachine;
         }
@@ -339,7 +309,8 @@ namespace Runtime.Gameplay.Features.Ai
 
             IReadOnlyVariable<bool> inAttackProcess = entity.InAttackProcess;
 
-            ICondition fromAttackToRotateStateCondition = new FuncCondition(() => inAttackProcess.Value == false);
+            ICompositeCondition fromAttackToRotateStateCondition = new CompositeCondition()
+                .Add(new FuncCondition(() => inAttackProcess.Value == false));
 
             AiStateMachine stateMachine = new AiStateMachine();
 

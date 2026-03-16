@@ -8,45 +8,41 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
 {
     public class EndInstantMoveSystem : IInitializableSystem, IDisposableSystem
     {
-        // References
-        private Rigidbody _rigidbody = null;
-        private ReactiveVariable<float> _instantMoveProcessInitialTime = null;
-        private ReactiveVariable<float> _instantMoveProcessCurrentTime = null;
-        private ReactiveVariable<Vector3> _instantMoveDestinationPosition = null;
-        private ReactiveVariable<bool> _inInstantMoveProcess = null;
+        // Delegates
+        private ReactiveEvent _startInstantMoveEvent = null;
         private ReactiveEvent _endInstantMoveEvent = null;
 
+
+        // References
+        private Rigidbody _rigidbody = null;
+        private ReactiveVariable<Vector3> _endPositionForInstantMove = null;
+        private ReactiveVariable<bool> _inInstantMoveProcess = null;
+
         // Runtime
-        private IDisposable _timerChanged = null;
+        private IDisposable _startInstantMoveEventDisposable = null;
 
         public void OnInit(Entity entity)
         {
-            _rigidbody = entity.Rigidbody;
-            _instantMoveProcessInitialTime = entity.InstantMoveProcessInitialTime;
-            _instantMoveProcessCurrentTime = entity.InstantMoveProcessCurrentTime;
-            _instantMoveDestinationPosition = entity.InstantMoveDestinationPosition;
-            _inInstantMoveProcess = entity.InInstantMoveProcess;
+            _startInstantMoveEvent = entity.StartInstantMoveEvent;
             _endInstantMoveEvent = entity.EndInstantMoveEvent;
 
-            _timerChanged = _instantMoveProcessCurrentTime.Subscribe(OnTimerChanged);
+            _rigidbody = entity.Rigidbody;
+            _endPositionForInstantMove = entity.EndPositionForInstantMove;
+            _inInstantMoveProcess = entity.InInstantMoveProcess;
+
+            _startInstantMoveEventDisposable = _startInstantMoveEvent.Subscribe(OnStartInstantMove);
         }
-
-        private void OnTimerChanged(float arg1, float currentTime)
-        {
-            if (TimeIsOver(currentTime))
-            {
-                _rigidbody.position = _instantMoveDestinationPosition.Value;
-
-                _inInstantMoveProcess.Value = false;
-
-                _endInstantMoveEvent.Invoke();
-            }
-        }
-
-        private bool TimeIsOver(float currentTime)
-            => currentTime >= _instantMoveProcessInitialTime.Value;
 
         public void OnDispose()
-            => _timerChanged.Dispose();
+            => _startInstantMoveEventDisposable.Dispose();
+
+        private void OnStartInstantMove()
+        {
+            _rigidbody.position = _endPositionForInstantMove.Value;
+
+            _inInstantMoveProcess.Value = false;
+
+            _endInstantMoveEvent.Invoke();
+        }
     }
 }
