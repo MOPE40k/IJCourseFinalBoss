@@ -2,8 +2,6 @@ using Infrastructure.DI;
 using Runtime.Gameplay.EntitiesCore;
 using Runtime.Gameplay.Features.Ai;
 using Runtime.Gameplay.Features.Ai.States;
-using Runtime.Gameplay.Features.Ai.States.InstantMove;
-using Runtime.Utils.Reactive;
 using UnityEngine;
 
 namespace Runtime.Gameplay
@@ -50,14 +48,12 @@ namespace Runtime.Gameplay
 
             if (Input.GetKeyDown(KeyCode.R))
                 _brainsFactory.CreateInstantMovementToRandomPointGhostBrain(
-                    _ghostEntity,
-                    new InstantMoveToRandomPointInRadius(_ghostEntity));
+                    _ghostEntity);
 
             if (Input.GetKeyDown(KeyCode.T))
                 _brainsFactory.CreateInstantMovementToTargetGhostBrain(
                     _instantMoveEntity,
-                    new LowHealthTargetSelector(_instantMoveEntity),
-                    new InstantMoveToTargetDirectionInRadius(_instantMoveEntity));
+                    new LowHealthTargetSelector(_instantMoveEntity));
         }
     }
 }

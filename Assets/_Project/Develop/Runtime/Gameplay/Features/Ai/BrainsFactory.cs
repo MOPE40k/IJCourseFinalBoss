@@ -111,11 +111,16 @@ namespace Runtime.Gameplay.Features.Ai
 
         public StateMachineBrain CreateInstantMovementToTargetGhostBrain(
             Entity entity,
-            ITargetSelector targetSelector,
-            IInstantMoveEndPointProvider moveEndPointProvider)
+            ITargetSelector targetSelector)
         {
-            AiStateMachine movementState = CreateInstantMovementToRandomPointInRadiusStateMachine(entity, moveEndPointProvider);
-            FindTargetState findTargetState = new FindTargetState(targetSelector, _entitiesLifeContext, entity);
+            AiStateMachine movementState = CreateInstantMovementToRandomPointInRadiusStateMachine(
+                entity,
+                new InstantMoveToTargetDirectionInRadius(entity));
+
+            FindTargetState findTargetState = new FindTargetState(
+                targetSelector,
+                _entitiesLifeContext,
+                entity);
 
             IReadOnlyVariable<Entity> currentTarget = entity.CurrentTarget;
 
@@ -157,11 +162,11 @@ namespace Runtime.Gameplay.Features.Ai
             return brain;
         }
 
-        public StateMachineBrain CreateInstantMovementToRandomPointGhostBrain(
-            Entity entity,
-            IInstantMoveEndPointProvider moveEndPointProvider)
+        public StateMachineBrain CreateInstantMovementToRandomPointGhostBrain(Entity entity)
         {
-            AiStateMachine stateMachine = CreateInstantMovementToRandomPointInRadiusStateMachine(entity, moveEndPointProvider);
+            AiStateMachine stateMachine = CreateInstantMovementToRandomPointInRadiusStateMachine(
+                entity,
+                new InstantMoveToRandomPointInRadius(entity));
 
             StateMachineBrain brain = new StateMachineBrain(stateMachine);
 
