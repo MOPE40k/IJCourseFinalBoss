@@ -628,65 +628,13 @@ namespace Runtime.Gameplay.EntitiesCore
 			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InInstantMoveProcess() { Value = value });
 		}
 
-		public Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessInitialTime InstantMoveProcessInitialTimeC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessInitialTime>();
+		public Runtime.Gameplay.Features.Movement.InstantMove.StartPositionBeforeInstantMove StartPositionBeforeInstantMoveC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.StartPositionBeforeInstantMove>();
 
-		public Runtime.Utils.Reactive.ReactiveVariable<System.Single> InstantMoveProcessInitialTime => InstantMoveProcessInitialTimeC.Value;
+		public Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> StartPositionBeforeInstantMove => StartPositionBeforeInstantMoveC.Value;
 
-		public bool TryGetInstantMoveProcessInitialTime (out Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
+		public bool TryGetStartPositionBeforeInstantMove (out Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
 		{
-			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessInitialTime component);
-
-			if (result)
-				value = component.Value;
-			else
-				value = default(Runtime.Utils.Reactive.ReactiveVariable<System.Single>);
-
-			return result;
-		}
-
-		public Runtime.Gameplay.EntitiesCore.Entity AddInstantMoveProcessInitialTime()
-		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessInitialTime() { Value = new Runtime.Utils.Reactive.ReactiveVariable<System.Single>() });
-		}
-
-		public Runtime.Gameplay.EntitiesCore.Entity AddInstantMoveProcessInitialTime(Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
-		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessInitialTime() { Value = value });
-		}
-
-		public Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessCurrentTime InstantMoveProcessCurrentTimeC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessCurrentTime>();
-
-		public Runtime.Utils.Reactive.ReactiveVariable<System.Single> InstantMoveProcessCurrentTime => InstantMoveProcessCurrentTimeC.Value;
-
-		public bool TryGetInstantMoveProcessCurrentTime (out Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
-		{
-			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessCurrentTime component);
-
-			if (result)
-				value = component.Value;
-			else
-				value = default(Runtime.Utils.Reactive.ReactiveVariable<System.Single>);
-
-			return result;
-		}
-
-		public Runtime.Gameplay.EntitiesCore.Entity AddInstantMoveProcessCurrentTime()
-		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessCurrentTime() { Value = new Runtime.Utils.Reactive.ReactiveVariable<System.Single>() });
-		}
-
-		public Runtime.Gameplay.EntitiesCore.Entity AddInstantMoveProcessCurrentTime(Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
-		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveProcessCurrentTime() { Value = value });
-		}
-
-		public Runtime.Gameplay.Features.Movement.InstantMove.StartPosition StartPositionC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.StartPosition>();
-
-		public Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> StartPosition => StartPositionC.Value;
-
-		public bool TryGetStartPosition (out Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
-		{
-			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.StartPosition component);
+			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.StartPositionBeforeInstantMove component);
 
 			if (result)
 				value = component.Value;
@@ -696,23 +644,23 @@ namespace Runtime.Gameplay.EntitiesCore
 			return result;
 		}
 
-		public Runtime.Gameplay.EntitiesCore.Entity AddStartPosition()
+		public Runtime.Gameplay.EntitiesCore.Entity AddStartPositionBeforeInstantMove()
 		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.StartPosition() { Value = new Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3>() });
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.StartPositionBeforeInstantMove() { Value = new Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3>() });
 		}
 
-		public Runtime.Gameplay.EntitiesCore.Entity AddStartPosition(Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
+		public Runtime.Gameplay.EntitiesCore.Entity AddStartPositionBeforeInstantMove(Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
 		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.StartPosition() { Value = value });
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.StartPositionBeforeInstantMove() { Value = value });
 		}
 
-		public Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveDestinationPosition InstantMoveDestinationPositionC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveDestinationPosition>();
+		public Runtime.Gameplay.Features.Movement.InstantMove.EndPositionForInstantMove EndPositionForInstantMoveC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.EndPositionForInstantMove>();
 
-		public Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> InstantMoveDestinationPosition => InstantMoveDestinationPositionC.Value;
+		public Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> EndPositionForInstantMove => EndPositionForInstantMoveC.Value;
 
-		public bool TryGetInstantMoveDestinationPosition (out Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
+		public bool TryGetEndPositionForInstantMove (out Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
 		{
-			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveDestinationPosition component);
+			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.EndPositionForInstantMove component);
 
 			if (result)
 				value = component.Value;
@@ -722,23 +670,23 @@ namespace Runtime.Gameplay.EntitiesCore
 			return result;
 		}
 
-		public Runtime.Gameplay.EntitiesCore.Entity AddInstantMoveDestinationPosition()
+		public Runtime.Gameplay.EntitiesCore.Entity AddEndPositionForInstantMove()
 		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveDestinationPosition() { Value = new Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3>() });
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.EndPositionForInstantMove() { Value = new Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3>() });
 		}
 
-		public Runtime.Gameplay.EntitiesCore.Entity AddInstantMoveDestinationPosition(Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
+		public Runtime.Gameplay.EntitiesCore.Entity AddEndPositionForInstantMove(Runtime.Utils.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
 		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveDestinationPosition() { Value = value });
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.EndPositionForInstantMove() { Value = value });
 		}
 
-		public Runtime.Gameplay.Features.Movement.InstantMove.MoveRadius MoveRadiusC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.MoveRadius>();
+		public Runtime.Gameplay.Features.Movement.InstantMove.RadiusForInstantMove RadiusForInstantMoveC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.RadiusForInstantMove>();
 
-		public Runtime.Utils.Reactive.ReactiveVariable<System.Single> MoveRadius => MoveRadiusC.Value;
+		public Runtime.Utils.Reactive.ReactiveVariable<System.Single> RadiusForInstantMove => RadiusForInstantMoveC.Value;
 
-		public bool TryGetMoveRadius (out Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
+		public bool TryGetRadiusForInstantMove (out Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
 		{
-			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.MoveRadius component);
+			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.RadiusForInstantMove component);
 
 			if (result)
 				value = component.Value;
@@ -748,23 +696,23 @@ namespace Runtime.Gameplay.EntitiesCore
 			return result;
 		}
 
-		public Runtime.Gameplay.EntitiesCore.Entity AddMoveRadius()
+		public Runtime.Gameplay.EntitiesCore.Entity AddRadiusForInstantMove()
 		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.MoveRadius() { Value = new Runtime.Utils.Reactive.ReactiveVariable<System.Single>() });
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.RadiusForInstantMove() { Value = new Runtime.Utils.Reactive.ReactiveVariable<System.Single>() });
 		}
 
-		public Runtime.Gameplay.EntitiesCore.Entity AddMoveRadius(Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
+		public Runtime.Gameplay.EntitiesCore.Entity AddRadiusForInstantMove(Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
 		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.MoveRadius() { Value = value });
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.RadiusForInstantMove() { Value = value });
 		}
 
-		public Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveStaminaCost InstantMoveStaminaCostC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveStaminaCost>();
+		public Runtime.Gameplay.Features.Movement.InstantMove.StaminaCostForInstantMove StaminaCostForInstantMoveC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.StaminaCostForInstantMove>();
 
-		public Runtime.Utils.Reactive.ReactiveVariable<System.Single> InstantMoveStaminaCost => InstantMoveStaminaCostC.Value;
+		public Runtime.Utils.Reactive.ReactiveVariable<System.Single> StaminaCostForInstantMove => StaminaCostForInstantMoveC.Value;
 
-		public bool TryGetInstantMoveStaminaCost (out Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
+		public bool TryGetStaminaCostForInstantMove (out Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
 		{
-			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveStaminaCost component);
+			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.StaminaCostForInstantMove component);
 
 			if (result)
 				value = component.Value;
@@ -774,14 +722,14 @@ namespace Runtime.Gameplay.EntitiesCore
 			return result;
 		}
 
-		public Runtime.Gameplay.EntitiesCore.Entity AddInstantMoveStaminaCost()
+		public Runtime.Gameplay.EntitiesCore.Entity AddStaminaCostForInstantMove()
 		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveStaminaCost() { Value = new Runtime.Utils.Reactive.ReactiveVariable<System.Single>() });
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.StaminaCostForInstantMove() { Value = new Runtime.Utils.Reactive.ReactiveVariable<System.Single>() });
 		}
 
-		public Runtime.Gameplay.EntitiesCore.Entity AddInstantMoveStaminaCost(Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
+		public Runtime.Gameplay.EntitiesCore.Entity AddStaminaCostForInstantMove(Runtime.Utils.Reactive.ReactiveVariable<System.Single> value)
 		{
-			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.InstantMoveStaminaCost() { Value = value });
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.StaminaCostForInstantMove() { Value = value });
 		}
 
 		public Runtime.Gameplay.Features.LifeCycle.CurrentHealth CurrentHealthC => this.GetComponent<Runtime.Gameplay.Features.LifeCycle.CurrentHealth>();
