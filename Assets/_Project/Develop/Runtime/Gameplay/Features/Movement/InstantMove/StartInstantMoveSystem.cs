@@ -13,7 +13,6 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
         private ReactiveEvent _startMoveRequest = null;
         private ReactiveEvent _startMoveEvent = null;
 
-
         // References
         private ReactiveVariable<float> _currentStamina = null;
         private ReactiveVariable<float> _staminaCostForInstantMove = null;

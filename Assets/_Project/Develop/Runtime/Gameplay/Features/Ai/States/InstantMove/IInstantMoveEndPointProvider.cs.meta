@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: f527091d16ce946e4b87a161182d8ef3
+<<<<<<<< HEAD:Assets/_Project/Develop/Runtime/Gameplay/Features/Ai/States/InstantMove/InstantMoveToRandomPointInRadiusState.cs.meta
+guid: 6e91454fab28f42448704e9478602a98
+========
+guid: bbbf7448d9443449f90ec8eff5d7e349
+>>>>>>>> Refactoring_L6_Homework:Assets/_Project/Develop/Runtime/Gameplay/Features/Ai/States/InstantMove/IInstantMoveEndPointProvider.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

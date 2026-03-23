@@ -43,4 +43,9 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
     {
         public ReactiveVariable<float> Value = null;
     }
+
+    public class HasEnoughStaminaForInstantMove : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value = null;
+    }
 }

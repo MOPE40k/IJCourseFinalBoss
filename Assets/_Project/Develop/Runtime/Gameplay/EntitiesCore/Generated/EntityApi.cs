@@ -732,6 +732,32 @@ namespace Runtime.Gameplay.EntitiesCore
 			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.StaminaCostForInstantMove() { Value = value });
 		}
 
+		public Runtime.Gameplay.Features.Movement.InstantMove.HasEnoughStaminaForInstantMove HasEnoughStaminaForInstantMoveC => this.GetComponent<Runtime.Gameplay.Features.Movement.InstantMove.HasEnoughStaminaForInstantMove>();
+
+		public Runtime.Utils.Reactive.ReactiveVariable<System.Boolean> HasEnoughStaminaForInstantMove => HasEnoughStaminaForInstantMoveC.Value;
+
+		public bool TryGetHasEnoughStaminaForInstantMove (out Runtime.Utils.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out Runtime.Gameplay.Features.Movement.InstantMove.HasEnoughStaminaForInstantMove component);
+
+			if (result)
+				value = component.Value;
+			else
+				value = default(Runtime.Utils.Reactive.ReactiveVariable<System.Boolean>);
+
+			return result;
+		}
+
+		public Runtime.Gameplay.EntitiesCore.Entity AddHasEnoughStaminaForInstantMove()
+		{
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.HasEnoughStaminaForInstantMove() { Value = new Runtime.Utils.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public Runtime.Gameplay.EntitiesCore.Entity AddHasEnoughStaminaForInstantMove(Runtime.Utils.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return this.AddComponent(new Runtime.Gameplay.Features.Movement.InstantMove.HasEnoughStaminaForInstantMove() { Value = value });
+		}
+
 		public Runtime.Gameplay.Features.LifeCycle.CurrentHealth CurrentHealthC => this.GetComponent<Runtime.Gameplay.Features.LifeCycle.CurrentHealth>();
 
 		public Runtime.Utils.Reactive.ReactiveVariable<System.Single> CurrentHealth => CurrentHealthC.Value;

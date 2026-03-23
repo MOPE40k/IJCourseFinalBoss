@@ -2,7 +2,6 @@ using Infrastructure.DI;
 using Runtime.Gameplay.EntitiesCore;
 using Runtime.Gameplay.Features.Ai;
 using Runtime.Gameplay.Features.Ai.States;
-using Runtime.Utils.Reactive;
 using UnityEngine;
 
 namespace Runtime.Gameplay
@@ -30,12 +29,14 @@ namespace Runtime.Gameplay
         public void Run()
         {
             _heroEntity = _entitiesFactory.CreateHeroEntity(Vector3.zero);
+            _heroEntity.AddCurrentTarget();
+
             _brainsFactory.CreateKeyboardControlMainHeroBrain(_heroEntity);
 
             _ghostEntity = _entitiesFactory.CreateInstantMoveEntity(Vector3.zero + Vector3.left * 5f);
+            _ghostEntity.AddCurrentTarget();
 
             _instantMoveEntity = _entitiesFactory.CreateInstantMoveEntity(Vector3.zero + Vector3.right * 5f);
-            _instantMoveEntity.AddCurrentTarget();
 
             _isRunning = true;
         }
@@ -46,10 +47,13 @@ namespace Runtime.Gameplay
                 return;
 
             if (Input.GetKeyDown(KeyCode.R))
-                _brainsFactory.CreateInstantMovementToRandomPointInRadiusGhostBrain(_ghostEntity);
+                _brainsFactory.CreateInstantMovementToRandomPointGhostBrain(
+                    _ghostEntity);
 
             if (Input.GetKeyDown(KeyCode.T))
-                _brainsFactory.CreateMovementToTargetGhostBrain(_instantMoveEntity, new LowHealthTargetSelector(_instantMoveEntity));
+                _brainsFactory.CreateInstantMovementToTargetGhostBrain(
+                    _instantMoveEntity,
+                    new LowHealthTargetSelector(_instantMoveEntity));
         }
     }
 }

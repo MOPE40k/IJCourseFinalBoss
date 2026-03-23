@@ -12,6 +12,7 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
         private ReactiveEvent _startInstantMoveEvent = null;
         private ReactiveEvent _endInstantMoveEvent = null;
 
+
         // References
         private Rigidbody _rigidbody = null;
         private ReactiveVariable<Vector3> _endPositionForInstantMove = null;
@@ -24,13 +25,13 @@ namespace Runtime.Gameplay.Features.Movement.InstantMove
         {
             _startInstantMoveEvent = entity.StartInstantMoveEvent;
             _endInstantMoveEvent = entity.EndInstantMoveEvent;
+
             _rigidbody = entity.Rigidbody;
             _endPositionForInstantMove = entity.EndPositionForInstantMove;
             _inInstantMoveProcess = entity.InInstantMoveProcess;
+
             _startInstantMoveEventDisposable = _startInstantMoveEvent.Subscribe(OnStartInstantMove);
         }
-
-
 
         public void OnDispose()
             => _startInstantMoveEventDisposable.Dispose();

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_Project/Develop/Runtime/Gameplay/Features/Ai/States/InstantMove/IInstantMoveEndPointProvider.cs.meta
+guid: f527091d16ce946e4b87a161182d8ef3
+========
+guid: f7bfbc18152d84dae837d09f607d3a78
+>>>>>>>> Refactoring_L6_Homework:Assets/_Project/Develop/Runtime/Gameplay/Features/Ai/States/InstantMove/InstantMoveToRandomPointInRadius.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
